@@ -12,6 +12,15 @@ public class MainLoader
     private string lineSplit = Environment.NewLine;
     private string columnSplit = ",";
 
+    private static int minLimit = 16;
+
+    public IEnumerator GetData(Action callback = null)
+    {
+        yield return GetDoramaData();
+        yield return GetLanguagesData();
+
+        callback?.Invoke();
+    }
     public IEnumerator GetDoramaData()
     {
         string data;
@@ -65,6 +74,9 @@ public class MainLoader
                 doramaData.Add(tag, result);
             }
 
+            if (doramaData.Count < minLimit)
+                continue;
+
             DataBase.Doramas.Add(TitleRowData[column], doramaData);
         }
     }
@@ -106,6 +118,8 @@ public class MainLoader
 
             DataBase.Languages.Add(LanguagesColumnData[column], languagesData);
         }
+
+        LanguageTranslator.Initialization();
     }
 }
 

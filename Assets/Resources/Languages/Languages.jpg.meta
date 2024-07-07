@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Languages_1
+      name: En
       rect:
         serializedVersion: 2
         x: 277
@@ -178,7 +178,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Languages_2
+      name: Ru
       rect:
         serializedVersion: 2
         x: 140
@@ -199,7 +199,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Languages_3
+      name: Ko
       rect:
         serializedVersion: 2
         x: 277
@@ -230,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      En: -971845216
+      Ko: 1310562695
       Languages_0: 142655735
-      Languages_1: -971845216
-      Languages_2: -183507233
-      Languages_3: 1310562695
+      Ru: -183507233
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

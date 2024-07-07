@@ -14,7 +14,7 @@ public static class LanguageTranslator
         fonts = new();
         foreach (string data in DataBase.Languages.Keys)
         {
-            TMP_FontAsset fontAsset = Resources.Load("Font/" + data) as TMP_FontAsset;
+            TMP_FontAsset fontAsset = Resources.Load("Languages/" + data) as TMP_FontAsset;
             fonts.Add(data, fontAsset);
         }
     }
