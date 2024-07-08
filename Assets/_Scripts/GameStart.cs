@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,6 @@ public class GameStart : MonoBehaviour
     private void InitializeSceneObjects()
     {
         InitializeLanguageFlags();
-        CreateNewBingoCard.Initialize();
     }
 
     private void InitializeLanguageFlags()

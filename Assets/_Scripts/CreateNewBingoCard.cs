@@ -3,11 +3,13 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 public class CreateNewBingoCard : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown cardSize;
-    [SerializeField] private TMP_Dropdown dorama;
+    [SerializeField] private DoramaPreviewComponent doramaPreviewPrefab;
+    [SerializeField] private RectTransform doramaPreviewParent;
     [SerializeField] private Button GoButton;
 
     private TMP_Dropdown.OptionData default4x4 = new("4x4");
@@ -15,31 +17,44 @@ public class CreateNewBingoCard : MonoBehaviour
     private TMP_Dropdown.OptionData default6x6 = new("6x6");
     private string randomDorama = "Random k-drama";
 
+    private string pickedDorama;
+
     private void Awake()
     {
         GoButton.onClick.AddListener(GenerateNewCard);
+        Initialize();
     }
 
-    public void Initialize()
+    public async void Initialize()
     {
-        foreach(string doramasKey in DataBase.Doramas.Keys)
+        while (!DataBase.DoramaIsReady)
+            await Task.Yield();
+
+        foreach (string doramasKey in DataBase.Doramas.Keys)
         {
-            dorama.options.Add(new(doramasKey));
+            string keyInstance = doramasKey;
+            DoramaPreviewComponent newDoramaPreview = Instantiate(doramaPreviewPrefab, doramaPreviewParent);
+            DataBase.Doramas[doramasKey].Poster = newDoramaPreview.Poster;
+            newDoramaPreview.Text.text = doramasKey;
+            newDoramaPreview.Button.onClick.AddListener(() => OnDoramaPick(keyInstance));
+            newDoramaPreview.Text.gameObject.AddComponent<TranslatorTextElement>();
         }
+
+        StartCoroutine(MainLoader.GetPosters());
     }
 
-    public void OnDoramaPick()
+    public void OnDoramaPick(string pickedDorama)
     {
-        string pickedDorama = dorama.itemText.text;
         if (pickedDorama == randomDorama)
         {
             int randomIndex = UnityEngine.Random.Range(0, DataBase.Doramas.Count);
             pickedDorama = DataBase.Doramas.ElementAt(randomIndex).Key;
         }
-            
+
+        this.pickedDorama = pickedDorama;
+
         string pickedSize = cardSize.itemText.text;
         int keyCount = DataBase.Doramas[pickedDorama].Count;
-
         switch (keyCount)
         {
             case > 36:
@@ -61,7 +76,7 @@ public class CreateNewBingoCard : MonoBehaviour
     private void GenerateNewCard()
     {
         BingoCard newCard = new();
-        newCard.Dorama = dorama.itemText.text;
+        newCard.Dorama = pickedDorama;
         int size;
         switch (cardSize.itemText.text)
         {
@@ -101,31 +116,4 @@ public class CreateNewBingoCard : MonoBehaviour
     {
         GoButton.onClick.RemoveAllListeners();
     }
-}
-
-[Serializable]
-public class BingoCell
-{
-    public string Tag;
-    public bool IsPushed;
-}
-
-public class GameplayManager
-{
-    private BingoCard bingoCard;
-}
-
-public static class GameMath
-{
-    public static void Shuffle<T>(T[] array)
-    {
-        int n = array.Length;
-        while (n > 1)
-        {
-            int k = UnityEngine.Random.Range(0, n--);
-            T temp = array[n];
-            array[n] = array[k];
-            array[k] = temp;
-        }
-    } 
 }

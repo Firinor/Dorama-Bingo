@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Net;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class MainLoader
 {
     //DoramaDataGoogleDocs
-    private string DoramaDataURL = "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv";
-    private string LanguagesURL = "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv&gid=2002448881";
+    private static readonly string DoramaDataURL = 
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv";
+    private static readonly string LanguagesURL = 
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv&gid=2002448881";
+    private static readonly string PostersURL = 
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv&gid=1844463073";
 
-    private string lineSplit = Environment.NewLine;
-    private string columnSplit = ",";
+    private static readonly string lineSplit = Environment.NewLine;
+    private static readonly string columnSplit = ",";
 
-    private static int minLimit = 16;
+    private static readonly int minLimit = 16;
 
     public IEnumerator GetData(Action callback = null)
     {
@@ -21,6 +26,59 @@ public class MainLoader
 
         callback?.Invoke();
     }
+
+    public static IEnumerator GetPosters(Action callback = null)
+    {
+        yield return GetDoramaPosters();
+
+        callback?.Invoke();
+    }
+
+    private static IEnumerator GetDoramaPosters()
+    {
+        string data;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(PostersURL))
+        {
+            webRequest.timeout = 5;
+
+            yield return webRequest.SendWebRequest();
+
+            if (!webRequest.isDone)
+                yield break;
+
+            data = webRequest.downloadHandler.text;
+        }
+
+        if (string.IsNullOrEmpty(data))
+            yield break;
+
+        string[] rowsData = data.Split(lineSplit);
+
+        for (int row = 1; row < rowsData.Length; row++)
+        {
+            string[] cellData = rowsData[row].Split(columnSplit);
+
+            if (!DataBase.Doramas.ContainsKey(cellData[0]))
+                continue;
+
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(cellData[3]))
+            {
+            
+                yield return www.SendWebRequest();
+
+                if (!www.isDone)
+                    yield break;
+
+                Texture2D posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+                Sprite sprite = Sprite.Create(
+                    posterTexture, new Rect(0,0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
+                DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
+                yield return null;
+            }
+        }
+    }
+
     public IEnumerator GetDoramaData()
     {
         string data;
@@ -79,6 +137,8 @@ public class MainLoader
 
             DataBase.Doramas.Add(TitleRowData[column], doramaData);
         }
+
+        DataBase.DoramaIsReady = true;
     }
 
     public IEnumerator GetLanguagesData()
@@ -120,18 +180,7 @@ public class MainLoader
         }
 
         LanguageTranslator.Initialization();
+
+        DataBase.LanguagesIsReady = true;
     }
 }
-
-public static class DataBase
-{
-    public static Dictionary<string, DoramaData> Doramas = new();
-    public static Dictionary<string, LanguagesData> Languages = new();
-}
-
-public class LanguagesData : Dictionary<string, string>
-{}
-
-public class DoramaData : Dictionary<string, bool>
-{}
-

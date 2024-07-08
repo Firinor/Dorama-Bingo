@@ -12,6 +12,12 @@ public class TranslatorTextElement : MonoBehaviour
         text = GetComponent<TextMeshProUGUI>();
         key = text.text;
         LanguageTranslator.OnChangeLanguage += ChangeText;
+
+        //if (DataBase.Languages.IsReady)
+        //{
+        //    string languageCode = Options.ApplicatonOptions.CurrentLanguageCode;
+        //    ChangeText(LanguageTranslator.GetText(languageCode));
+        //}
     }
 
     private void ChangeText(TMP_FontAsset font, LanguagesData newText)

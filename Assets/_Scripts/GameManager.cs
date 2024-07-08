@@ -69,33 +69,3 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 }
-
-[Serializable]
-public class BingoCard
-{
-    internal string Dorama;
-    internal Vector2 Size;
-    internal BingoCell[] Cells;
-}
-
-public static class SaveLoadSystem
-{
-    public static T LoadData<T>(string key)
-    {
-        string loadData = PlayerPrefs.GetString(key);
-        T result = JsonUtility.FromJson<T>(loadData);
-        return result;
-    }
-
-    public static void SaveData<T>(string key, T data)
-    {
-        string saveData = JsonUtility.ToJson(data);
-        PlayerPrefs.SetString(key, saveData);
-    }
-}
-
-public static class SaveKey
-{
-    public static readonly string LastBingoCard = "LastBingoCard";
-    public static readonly string BingoCardsList = "BingoCardsList";
-}
