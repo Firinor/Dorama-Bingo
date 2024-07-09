@@ -62,6 +62,9 @@ public class MainLoader
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
 
+            if (DataBase.Doramas[cellData[0]].IsLoadet)
+                continue;
+
             using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(cellData[3]))
             {
             
@@ -74,9 +77,12 @@ public class MainLoader
                 Sprite sprite = Sprite.Create(
                     posterTexture, new Rect(0,0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
                 DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
+                DataBase.Doramas[cellData[0]].IsLoadet = true;
                 yield return null;
             }
         }
+
+        DataBase.PostersIsLoadet = true;
     }
 
     public IEnumerator GetDoramaData()

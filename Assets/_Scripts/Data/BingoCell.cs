@@ -4,5 +4,5 @@
 public class BingoCell
 {
     public string Tag;
-    public bool IsPushed;
+    public bool IsPressed;
 }

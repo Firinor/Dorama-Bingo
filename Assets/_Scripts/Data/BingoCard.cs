@@ -5,6 +5,6 @@ using UnityEngine;
 public class BingoCard
 {
     internal string Dorama;
-    internal Vector2 Size;
+    internal Vector2Int Size;
     internal BingoCell[] Cells;
 }

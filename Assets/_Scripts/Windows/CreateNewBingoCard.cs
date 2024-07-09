@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 public class CreateNewBingoCard : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+
     [SerializeField] private TMP_Dropdown cardSize;
     [SerializeField] private DoramaPreviewComponent doramaPreviewPrefab;
     [SerializeField] private RectTransform doramaPreviewParent;
@@ -40,20 +42,26 @@ public class CreateNewBingoCard : MonoBehaviour
             newDoramaPreview.Text.gameObject.AddComponent<TranslatorTextElement>();
         }
 
-        StartCoroutine(MainLoader.GetPosters());
+        RandomDorama();
     }
 
-    public void OnDoramaPick(string pickedDorama)
+    public void OnEnable()
     {
-        if (pickedDorama == randomDorama)
+        if(!DataBase.PostersIsLoadet)
+            StartCoroutine(MainLoader.GetPosters());
+    }
+
+    public void OnDoramaPick(string newPickedDorama)
+    {
+        if (newPickedDorama == randomDorama)
         {
-            int randomIndex = UnityEngine.Random.Range(0, DataBase.Doramas.Count);
-            pickedDorama = DataBase.Doramas.ElementAt(randomIndex).Key;
+            RandomDorama();
+        }
+        else
+        {
+            pickedDorama = newPickedDorama;
         }
 
-        this.pickedDorama = pickedDorama;
-
-        string pickedSize = cardSize.itemText.text;
         int keyCount = DataBase.Doramas[pickedDorama].Count;
         switch (keyCount)
         {
@@ -62,15 +70,21 @@ public class CreateNewBingoCard : MonoBehaviour
                 break;
             case > 25:
                 cardSize.options = new() { default4x4, default5x5 };
+                cardSize.value = Math.Min(cardSize.value, 1);
                 break;
             case > 16:
                 cardSize.options = new() { default4x4 };
+                cardSize.value = 0;
                 break;
             default:
                 throw new Exception("Error when getting the number of tags of the drama!");
         }
+    }
 
-
+    private void RandomDorama()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, DataBase.Doramas.Count);
+        pickedDorama = DataBase.Doramas.ElementAt(randomIndex).Key;
     }
 
     private void GenerateNewCard()
@@ -78,24 +92,27 @@ public class CreateNewBingoCard : MonoBehaviour
         BingoCard newCard = new();
         newCard.Dorama = pickedDorama;
         int size;
-        switch (cardSize.itemText.text)
+        switch (cardSize.value)
         {
-            case "4x4":
+            case 0:
                 size = 4;
                 break;
-            case "5x5":
+            case 1:
                 size = 5;
                 break;
-            case "6x6":
+            case 2:
                 size = 6;
                 break;
             default:
                 throw new Exception("Unknown card size!");
         }
-        newCard.Size = new Vector2(size, size);
+        newCard.Size = new Vector2Int(size, size);
         newCard.Cells = GenetareNewCells(newCard.Dorama, size * size);
-    }
 
+        PlayerData.CurrentBingoCard = newCard;
+
+        gameManager.OpenGameplayWindow();
+    }
     private BingoCell[] GenetareNewCells(string dorama, int count)
     {
         BingoCell[] result = new BingoCell[count];
@@ -106,12 +123,11 @@ public class CreateNewBingoCard : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            result[i].Tag = tags[i];
+            result[i] = new() { Tag = tags[i] };
         }
 
         return result;
     }
-
     private void OnDestroy()
     {
         GoButton.onClick.RemoveAllListeners();

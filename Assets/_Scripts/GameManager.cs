@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +18,7 @@ public class GameManager : MonoBehaviour
         ContinueButton.SetActive(isLast);
         bool isCartsList = PlayerPrefs.HasKey(SaveKey.BingoCardsList);
         LoadButton.SetActive(isCartsList);
+        //InitializeBingoCard(SaveLoadSystem.LoadData<BingoCard>(SaveKey.LastBingoCard));
     }
 
     public void ToMainWindow()
@@ -43,29 +43,9 @@ public class GameManager : MonoBehaviour
 
     public void OpenGameplayWindow()
     {
-        OpenGameplayWindow(null);
-    }
-
-    public void OpenGameplayWindow(BingoCard card = null)
-    {
-        if (card != null)
-            InitializeBingoCard(card);
-
-        if (bingoCard != null)
-            return;
-        else
-            InitializeBingoCard(SaveLoadSystem.LoadData<BingoCard>(SaveKey.LastBingoCard));
-
         NewCardWindow.SetActive(false);
         LoadWindow.SetActive(false);
         MainWindow.SetActive(false);
         GameplayWindow.SetActive(true);
-    }
-
-    private void InitializeBingoCard(BingoCard card)
-    {
-        GameObject cellPrefab = Resources.Load<GameObject>("Cell");
-
-        throw new NotImplementedException();
     }
 }
