@@ -12,6 +12,7 @@ public class GameStart : MonoBehaviour
     void Awake()
     {
         var loader = new MainLoader();
+
         StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
     }
 

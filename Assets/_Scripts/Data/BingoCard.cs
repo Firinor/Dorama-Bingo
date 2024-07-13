@@ -1,10 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class BingoCard
 {
-    internal string Dorama;
-    internal Vector2Int Size;
-    internal BingoCell[] Cells;
+    public string Dorama;
+    public Vector2Int Size;
+    public BingoCell[] Cells;
+
+    public List<BingoCell> GetActiveCells()
+    {
+        List<BingoCell> result = new();
+
+        foreach(BingoCell cell in Cells)
+        {
+            if (cell.IsPressed)
+                result.Add(cell);
+        }
+
+        return result;
+    }
 }

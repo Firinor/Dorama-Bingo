@@ -107,14 +107,16 @@ public class CreateNewBingoCard : MonoBehaviour
                 throw new Exception("Unknown card size!");
         }
         newCard.Size = new Vector2Int(size, size);
-        newCard.Cells = GenetareNewCells(newCard.Dorama, size * size);
+        newCard.Cells = GenetareNewCells(newCard.Dorama, size);
 
         PlayerData.CurrentBingoCard = newCard;
 
         gameManager.OpenGameplayWindow();
     }
-    private BingoCell[] GenetareNewCells(string dorama, int count)
+    private BingoCell[] GenetareNewCells(string dorama, int size)
     {
+        int count = size * size;
+
         BingoCell[] result = new BingoCell[count];
 
         string[] tags = DataBase.Doramas[dorama].Keys.ToArray();
@@ -123,7 +125,7 @@ public class CreateNewBingoCard : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-            result[i] = new() { Tag = tags[i] };
+            result[i] = new() { Tag = tags[i], X = i % size, Y = i / size};
         }
 
         return result;

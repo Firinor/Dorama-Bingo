@@ -63,8 +63,10 @@ public class GameplayWindow : MonoBehaviour
 
     public void PlayerDone()
     {
+        WinConditions conditions = new();
+
         //check
-        bool IsPlayerWin = false;
+        bool IsPlayerWin = conditions.IsBINGO(PlayerData.CurrentBingoCard);
 
         Sprite popupSprite = IsPlayerWin ? Win : Lose;
 

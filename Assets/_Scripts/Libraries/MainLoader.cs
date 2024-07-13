@@ -55,7 +55,7 @@ public class MainLoader
 
         string[] rowsData = data.Split(lineSplit);
 
-        for (int row = 1; row < rowsData.Length; row++)
+        for (int row = 0; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(columnSplit);
 
@@ -169,7 +169,7 @@ public class MainLoader
         string[] rowsData = data.Split(lineSplit);
         string[] LanguagesColumnData = rowsData[0].Split(columnSplit);
 
-        for (int column = 0; column < LanguagesColumnData.Length; column++)
+        for (int column = 1; column < LanguagesColumnData.Length; column++)
         {
             LanguagesData languagesData = new();
 
