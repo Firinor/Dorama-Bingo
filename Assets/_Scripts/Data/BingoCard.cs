@@ -9,13 +9,16 @@ public class BingoCard
     public Vector2Int Size;
     public BingoCell[] Cells;
 
+    public int Hearts = 5;
+    public int Scores;
+
     public List<BingoCell> GetActiveCells()
     {
         List<BingoCell> result = new();
 
         foreach(BingoCell cell in Cells)
         {
-            if (cell.IsPressed)
+            if (!cell.IsNeutral && cell.IsCorrect)
                 result.Add(cell);
         }
 

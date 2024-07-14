@@ -3,9 +3,10 @@
 [Serializable]
 public class BingoCell
 {
+    public string Tag;
+
     public int X;
     public int Y;
-
-    public string Tag;
-    public bool IsPressed;
+    public bool IsNeutral = true;
+    public bool IsCorrect;
 }

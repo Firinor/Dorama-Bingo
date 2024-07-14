@@ -11,9 +11,19 @@ public class GameStart : MonoBehaviour
 
     void Awake()
     {
-        var loader = new MainLoader();
+        LoadAll();
+
+        MainLoader loader = new();
 
         StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
+    }
+
+    private void LoadAll()
+    {
+        SaveLoadManager saveManager = new();
+        PlayerData.CurrentBingoCard = saveManager.Load<BingoCard>(SaveKey.CurrentCard);
+        PlayerData.CurrentLanguage = saveManager.Load(SaveKey.Language);
+        PlayerData.SavedBingoCards = saveManager.Load<BingoCard[]>(SaveKey.SavedCards);
     }
 
     private void InitializeSceneObjects()
@@ -38,3 +48,4 @@ public class GameStart : MonoBehaviour
         }
     }
 }
+

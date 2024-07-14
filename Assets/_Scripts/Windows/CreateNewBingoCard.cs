@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CreateNewBingoCard : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private WindowManager gameManager;
 
     [SerializeField] private TMP_Dropdown cardSize;
     [SerializeField] private DoramaPreviewComponent doramaPreviewPrefab;
@@ -110,6 +110,7 @@ public class CreateNewBingoCard : MonoBehaviour
         newCard.Cells = GenetareNewCells(newCard.Dorama, size);
 
         PlayerData.CurrentBingoCard = newCard;
+        new SaveLoadManager().Save(newCard, SaveKey.CurrentCard);
 
         gameManager.OpenGameplayWindow();
     }

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +8,12 @@ public class CellBingoCard : MonoBehaviour
     public TextMeshProUGUI doramaTag;
     public Button button;
 
+    public Image BackgroundImage;
     public Image PressedImage;
 
     public BingoCell bingoCell;
 
-    public void Initialize(BingoCell cell)
+    public void Initialize(BingoCell cell, Action<CellBingoCard> action)
     {
         bingoCell = cell;
 
@@ -20,14 +22,27 @@ public class CellBingoCard : MonoBehaviour
         doramaTag.text = cell.Tag;
         doramaTag.gameObject.AddComponent<TranslatorTextElement>();
 
-        PressedImage.enabled = cell.IsPressed;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(() => action.Invoke(this));
 
         gameObject.SetActive(true);
     }
 
-    public void OnPressed()
+    public void NeutralPressed()
     {
-        bingoCell.IsPressed = !bingoCell.IsPressed;
-        PressedImage.enabled = bingoCell.IsPressed;
+        BackgroundImage.color = Color.white;
+        PressedImage.enabled = false;
+    }
+
+    public void CorrectPressed()
+    {
+        BackgroundImage.color = Color.white;
+        PressedImage.enabled = true;
+    }
+
+    public void UncorrectPressed()
+    {
+        BackgroundImage.color = Color.red;
+        PressedImage.enabled = false;
     }
 }

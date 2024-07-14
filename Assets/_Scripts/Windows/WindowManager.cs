@@ -1,25 +1,13 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class WindowManager : MonoBehaviour
 {
-    [SerializeField] private GameObject ContinueButton;
-    [SerializeField] private GameObject LoadButton;
-
     [SerializeField] private GameObject MainWindow;
     [SerializeField] private GameObject NewCardWindow;
     [SerializeField] private GameObject LoadWindow;
     [SerializeField] private GameObject GameplayWindow;
 
     private BingoCard bingoCard;
-
-    private void Awake()
-    {
-        bool isLast = PlayerPrefs.HasKey(SaveKey.LastBingoCard);
-        ContinueButton.SetActive(isLast);
-        bool isCartsList = PlayerPrefs.HasKey(SaveKey.BingoCardsList);
-        LoadButton.SetActive(isCartsList);
-        //InitializeBingoCard(SaveLoadSystem.LoadData<BingoCard>(SaveKey.LastBingoCard));
-    }
 
     public void ToMainWindow()
     {

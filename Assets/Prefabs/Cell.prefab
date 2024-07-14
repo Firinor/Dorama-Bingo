@@ -52,7 +52,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623712719621286013}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -224,10 +224,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doramaTag: {fileID: 1910616103439473842}
   button: {fileID: 5767041194310611052}
+  BackgroundImage: {fileID: 7671599639282968531}
   PressedImage: {fileID: 4445668237076658478}
   bingoCell:
     Tag: 
-    IsPressed: 0
+    X: 0
+    Y: 0
+    IsNeutral: 0
+    IsCorrect: 0
 --- !u!1 &8753242674645471614
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +325,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0
+  m_fontSize: 19.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

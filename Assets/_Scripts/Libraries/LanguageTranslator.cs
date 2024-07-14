@@ -22,5 +22,21 @@ public static class LanguageTranslator
     public static void ChangeLanguage(string LanguageCode)
     {
         OnChangeLanguage?.Invoke(fonts[LanguageCode], DataBase.Languages[LanguageCode]);
+        new SaveLoadManager().Save(LanguageCode, SaveKey.Language);
     }
+
+    public static TranslateData GetText(string LanguageCode)
+    {
+        return new()
+        {
+            Font = fonts[LanguageCode],
+            LanguagesData = DataBase.Languages[LanguageCode],
+        };
+    }
+}
+
+public class TranslateData
+{
+    public TMP_FontAsset Font;
+    public LanguagesData LanguagesData;
 }
