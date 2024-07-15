@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public class ApplicationOptions
+public static class ApplicationOptions
 {
-    public string CurrentLanguageCode;
+    public static string LanguageCode;
 }

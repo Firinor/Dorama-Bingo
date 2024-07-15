@@ -17,10 +17,10 @@ public class TranslatorTextElement : MonoBehaviour
         while (!DataBase.LanguagesIsReady)
             yield return null;
 
-        if (string.IsNullOrEmpty(PlayerData.CurrentLanguage))
+        if (string.IsNullOrEmpty(ApplicationOptions.LanguageCode))
             yield break;
 
-        string languageCode = PlayerData.CurrentLanguage;
+        string languageCode = ApplicationOptions.LanguageCode;
         ChangeText(LanguageTranslator.GetText(languageCode));
     }
 

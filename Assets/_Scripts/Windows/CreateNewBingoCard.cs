@@ -110,7 +110,7 @@ public class CreateNewBingoCard : MonoBehaviour
         newCard.Cells = GenetareNewCells(newCard.Dorama, size);
 
         PlayerData.CurrentBingoCard = newCard;
-        new SaveLoadManager().Save(newCard, SaveKey.CurrentCard);
+        new SaveLoadSystem().Save(newCard, SaveKey.CurrentCard);
 
         gameManager.OpenGameplayWindow();
     }

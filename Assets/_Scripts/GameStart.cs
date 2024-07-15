@@ -20,10 +20,10 @@ public class GameStart : MonoBehaviour
 
     private void LoadAll()
     {
-        SaveLoadManager saveManager = new();
+        SaveLoadSystem saveManager = new();
         PlayerData.CurrentBingoCard = saveManager.Load<BingoCard>(SaveKey.CurrentCard);
-        PlayerData.CurrentLanguage = saveManager.Load(SaveKey.Language);
-        PlayerData.SavedBingoCards = saveManager.Load<BingoCard[]>(SaveKey.SavedCards);
+        ApplicationOptions.LanguageCode = saveManager.Load(SaveKey.Language);
+        PlayerData.SavedBingoCards = saveManager.Load<LoadBingoCardData[]>(SaveKey.SavedCards);
     }
 
     private void InitializeSceneObjects()
