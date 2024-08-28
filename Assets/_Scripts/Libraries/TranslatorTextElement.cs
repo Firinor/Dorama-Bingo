@@ -32,6 +32,9 @@ public class TranslatorTextElement : MonoBehaviour
     {
         if (!newText.ContainsKey(key))
             return;
+
+        if (string.IsNullOrEmpty(newText[key]))
+            return;
         
         text.font = font;
         text.text = newText[key];

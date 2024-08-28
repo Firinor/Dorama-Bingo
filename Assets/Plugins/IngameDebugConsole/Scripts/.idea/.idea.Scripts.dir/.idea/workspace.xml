@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0468eb66-3767-454c-ab36-04c035bfe4f4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../TextMesh Pro/Resources/TMP Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../TextMesh Pro/Resources/TMP Settings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Prefabs/Windows/MainWindow.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Prefabs/Windows/MainWindow.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/En.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Resources/Languages/En.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Resources/Languages/Ko.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Resources/Languages/Ko.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko2.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko2.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko3.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ko3.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/KoreanSansSSK.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/KoreanSansSSK.ttf.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Languages.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Resources/Languages/Languages.jpg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/Ru.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Resources/Languages/Ru.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/ｷｱｵ蟶ｮｰ昉・Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Resources/Languages/ｷｱｵ蟶ｮｰ昉・Regular.ttf.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scene.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scene/Test.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scene/Test.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scene/TestSettings.lighting" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scene/TestSettings.lighting.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../_Scripts/GameStart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../_Scripts/GameStart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../_Scripts/Libraries/LanguageTranslator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../_Scripts/Libraries/LanguageTranslator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../_Scripts/Libraries/MainLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../_Scripts/Libraries/MainLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../_Scripts/Libraries/TranslatorTextElement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../../_Scripts/Libraries/TranslatorTextElement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../ProjectSettings/ProjectVersion.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/DebugLogManager.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2jqIXeUZxj1HLhZPAcXeuz4D9xT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Firinor\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Firinor\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Firinor\\AppData\\Local\\Symbols\\src"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0468eb66-3767-454c-ab36-04c035bfe4f4" name="Changes" comment="" />
+      <created>1722108222424</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1722108222424</updated>
+      <workItem from="1722108223733" duration="5000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

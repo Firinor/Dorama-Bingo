@@ -1,5 +1,7 @@
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameStart : MonoBehaviour
@@ -33,12 +35,17 @@ public class GameStart : MonoBehaviour
 
     private void InitializeLanguageFlags()
     {
-        int languageCount = DataBase.Languages.Count;
         Sprite[] flags = Resources.LoadAll<Sprite>("Languages/Languages");
 
         foreach (string languageCode in DataBase.Languages.Keys)
         {
-            Sprite currentFlag = Array.Find(flags, flag => flag.name.ToLower() == languageCode.ToLower());
+            Sprite currentFlag = Array.Find(flags, flag => flag.name.StartsWith(languageCode));
+
+            if (currentFlag == null)
+            {
+                Debug.LogError("No flag " + languageCode);
+                continue;
+            }
 
             GameObject languageButton = Instantiate(LanguageButtonPrefab, LanguageButtonParent);
 
@@ -46,6 +53,17 @@ public class GameStart : MonoBehaviour
             languageButton.GetComponent<Button>().onClick.AddListener(
                 () => LanguageTranslator.ChangeLanguage(languageCode));
         }
+    }
+
+    public void Reload()
+    {
+        PlayerPrefs.DeleteAll();
+        DataBase.Doramas = new();
+        DataBase.DoramaIsReady = false;
+        DataBase.PostersIsLoaded = false;
+        DataBase.Languages = new();
+        DataBase.LanguagesIsReady = false;
+        SceneManager.LoadScene(0);
     }
 }
 

@@ -22,6 +22,7 @@ public static class LanguageTranslator
     public static void ChangeLanguage(string LanguageCode)
     {
         OnChangeLanguage?.Invoke(fonts[LanguageCode], DataBase.Languages[LanguageCode]);
+        ApplicationOptions.LanguageCode = LanguageCode;
         new SaveLoadSystem().Save(LanguageCode, SaveKey.Language);
     }
 

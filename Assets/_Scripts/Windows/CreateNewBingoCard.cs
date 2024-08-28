@@ -47,7 +47,7 @@ public class CreateNewBingoCard : MonoBehaviour
 
     public void OnEnable()
     {
-        if(!DataBase.PostersIsLoadet)
+        if(!DataBase.PostersIsLoaded)
             StartCoroutine(MainLoader.GetPosters());
     }
 

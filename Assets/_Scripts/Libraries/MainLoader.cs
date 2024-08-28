@@ -8,14 +8,14 @@ public class MainLoader
 {
     //DoramaDataGoogleDocs
     private static readonly string DoramaDataURL = 
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv";
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv";
     private static readonly string LanguagesURL = 
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv&gid=2002448881";
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
     private static readonly string PostersURL = 
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=csv&gid=1844463073";
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1844463073";
 
     private static readonly string lineSplit = Environment.NewLine;
-    private static readonly string columnSplit = ",";
+    private static readonly string columnSplit = "\t";
 
     private static readonly int minLimit = 16;
 
@@ -62,10 +62,24 @@ public class MainLoader
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
 
-            if (DataBase.Doramas[cellData[0]].IsLoadet)
+            if (DataBase.Doramas[cellData[0]].IsLoaded)
                 continue;
 
-            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(cellData[3]))
+            string TextureURL = "";
+
+            for (int cell = 1; cell < cellData.Length; cell++)
+            {
+                if (cellData[cell].StartsWith("https:"))
+                {
+                    TextureURL = cellData[cell];
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(TextureURL))
+                continue;
+            
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(TextureURL))
             {
             
                 yield return www.SendWebRequest();
@@ -77,12 +91,12 @@ public class MainLoader
                 Sprite sprite = Sprite.Create(
                     posterTexture, new Rect(0,0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
                 DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
-                DataBase.Doramas[cellData[0]].IsLoadet = true;
+                DataBase.Doramas[cellData[0]].IsLoaded = true;
                 yield return null;
             }
         }
 
-        DataBase.PostersIsLoadet = true;
+        DataBase.PostersIsLoaded = true;
     }
 
     public IEnumerator GetDoramaData()
@@ -123,7 +137,8 @@ public class MainLoader
                     continue;
 
                 bool result;
-                switch (rowsData[row].Split(columnSplit)[column])
+
+                switch (rowData[column].Trim())
                 {
                     case "yes":
                         result = true;
@@ -140,6 +155,7 @@ public class MainLoader
 
             if (doramaData.Count < minLimit)
                 continue;
+
 
             DataBase.Doramas.Add(TitleRowData[column], doramaData);
         }
@@ -171,6 +187,9 @@ public class MainLoader
 
         for (int column = 1; column < LanguagesColumnData.Length; column++)
         {
+            if (string.IsNullOrEmpty(LanguagesColumnData[column]))
+                continue;
+
             LanguagesData languagesData = new();
 
             for (int rowIndex = 1; rowIndex < rowsData.Length; rowIndex++)
@@ -182,7 +201,7 @@ public class MainLoader
                 languagesData.Add(key: languagesRow[0], value: languagesRow[column]);
             }
 
-            DataBase.Languages.Add(LanguagesColumnData[column], languagesData);
+            DataBase.Languages.Add(LanguagesColumnData[column].Trim(), languagesData);
         }
 
         LanguageTranslator.Initialization();

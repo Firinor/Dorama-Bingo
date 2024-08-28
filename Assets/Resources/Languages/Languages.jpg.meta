@@ -132,11 +132,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Languages_0
+      name: MeFlag
       rect:
         serializedVersion: 2
         x: 0
@@ -157,7 +170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: En
+      name: EnFlag
       rect:
         serializedVersion: 2
         x: 277
@@ -178,7 +191,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ru
+      name: RuFlag
       rect:
         serializedVersion: 2
         x: 140
@@ -199,7 +212,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ko
+      name: KoFlag
       rect:
         serializedVersion: 2
         x: 277
@@ -230,10 +243,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      En: -971845216
-      Ko: 1310562695
-      Languages_0: 142655735
-      Ru: -183507233
+      EnFlag: -971845216
+      KoFlag: 1310562695
+      MeFlag: 142655735
+      RuFlag: -183507233
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

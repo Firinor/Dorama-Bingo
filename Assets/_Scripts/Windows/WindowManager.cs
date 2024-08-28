@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WindowManager : MonoBehaviour
@@ -6,6 +7,8 @@ public class WindowManager : MonoBehaviour
     [SerializeField] private GameObject NewCardWindow;
     [SerializeField] private SaveLoadWindow LoadWindow;
     [SerializeField] private GameObject GameplayWindow;
+
+    private int i = 1;
 
     private BingoCard bingoCard;
 
