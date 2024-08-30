@@ -4,7 +4,7 @@ using UnityEngine;
 public class WindowManager : MonoBehaviour
 {
     [SerializeField] private GameObject MainWindow;
-    [SerializeField] private GameObject NewCardWindow;
+    [SerializeField] private CanvasGroup NewCardWindow;
     [SerializeField] private SaveLoadWindow LoadWindow;
     [SerializeField] private GameObject GameplayWindow;
 
@@ -12,9 +12,23 @@ public class WindowManager : MonoBehaviour
 
     private BingoCard bingoCard;
 
+    public void NewCardWindowOn()
+    {
+        NewCardWindow.alpha = 1f;
+        NewCardWindow.blocksRaycasts = true;
+        NewCardWindow.interactable = true;
+    }
+
+    public void NewCardWindowOff() 
+    {
+        NewCardWindow.alpha = 0f;
+        NewCardWindow.blocksRaycasts = false;
+        NewCardWindow.interactable = false;
+    }
+
     public void ToMainWindow()
     {
-        NewCardWindow.SetActive(false);
+        NewCardWindowOff();
         LoadWindow.gameObject.SetActive(false);
         GameplayWindow.SetActive(false);
         MainWindow.SetActive(true);
@@ -23,7 +37,7 @@ public class WindowManager : MonoBehaviour
     public void OpenNewBingoCard()
     {
         MainWindow.SetActive(false);
-        NewCardWindow.SetActive(true);
+        NewCardWindowOn();
     }
 
     public void OpenLoadBingoCard()
@@ -40,7 +54,7 @@ public class WindowManager : MonoBehaviour
 
     public void OpenGameplayWindow()
     {
-        NewCardWindow.SetActive(false);
+        NewCardWindowOff();
         LoadWindow.gameObject.SetActive(false);
         MainWindow.SetActive(false);
         GameplayWindow.SetActive(true);

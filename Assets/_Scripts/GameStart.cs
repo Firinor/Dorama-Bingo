@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +16,9 @@ public class GameStart : MonoBehaviour
 
         MainLoader loader = new();
 
+
         StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
+
     }
 
     private void LoadAll()
@@ -30,6 +31,8 @@ public class GameStart : MonoBehaviour
 
     private void InitializeSceneObjects()
     {
+        UpdateLoader updateLoader = new();
+        StartCoroutine(updateLoader.GetUpdate(Reload));
         InitializeLanguageFlags();
     }
 

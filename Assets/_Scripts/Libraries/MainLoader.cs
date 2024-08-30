@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
-using System.Net;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class MainLoader
 {
     //DoramaDataGoogleDocs
-    private static readonly string DoramaDataURL = 
+    private static readonly string DoramaDataURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv";
-    private static readonly string LanguagesURL = 
+    private static readonly string LanguagesURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
-    private static readonly string PostersURL = 
+    private static readonly string PostersURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1844463073";
 
     private static readonly string lineSplit = Environment.NewLine;
@@ -21,23 +21,19 @@ public class MainLoader
 
     public IEnumerator GetData(Action callback = null)
     {
-        yield return GetDoramaData();
-        yield return GetLanguagesData();
-
-        callback?.Invoke();
+        yield return EthernetManager.ConnectionEstablish(DoramaDataURL);
+        yield return GetLocalData(callback);
     }
 
-    public static IEnumerator GetPosters(Action callback = null)
+
+
+    public IEnumerator GetDoramaPosters(string data = null)
     {
-        yield return GetDoramaPosters();
-
-        callback?.Invoke();
-    }
-
-    private static IEnumerator GetDoramaPosters()
-    {
-        string data;
-
+        if(data != null)
+        {
+            yield return ParsePostersData(data);
+            yield break;
+        }
         using (UnityWebRequest webRequest = UnityWebRequest.Get(PostersURL))
         {
             webRequest.timeout = 5;
@@ -47,9 +43,63 @@ public class MainLoader
             if (!webRequest.isDone)
                 yield break;
 
+            Debug.Log("Posters Downloading...");
             data = webRequest.downloadHandler.text;
+            PlayerPrefs.SetString("_postersData", data);
+            yield return ParsePostersData(data);
+        }
+    }
+
+    public IEnumerator GetDoramaData(string data = null)
+    {
+        if(data != null)
+        {
+            yield return ParseDoramaData(data);
+            yield break;
+        }
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(DoramaDataURL))
+        {
+            webRequest.timeout = 5;
+
+            yield return webRequest.SendWebRequest();
+
+            if (!webRequest.isDone)
+            {
+                yield break;
+            }
+
+            data = webRequest.downloadHandler.text;
+            PlayerPrefs.SetString("_doramaData", data);
+            yield return ParseDoramaData(data);
+        }
+    }
+
+    public IEnumerator GetLanguagesData(string data = null)
+    {
+        if (data != null)
+        {
+            yield return ParseLanguageData(data);
+            yield break;
+        }
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(LanguagesURL))
+        {
+            webRequest.timeout = 5;
+
+            yield return webRequest.SendWebRequest();
+
+            if (!webRequest.isDone)
+                yield break;
+
+            data = webRequest.downloadHandler.text;
+            PlayerPrefs.SetString("_languageData", data);
+            yield return ParseLanguageData(data);
         }
 
+    }
+
+    public IEnumerator ParsePostersData(string data)
+    {
+        Debug.Log("PostersData processed");
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -58,9 +108,10 @@ public class MainLoader
         for (int row = 0; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(columnSplit);
-
+            
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
+
 
             if (DataBase.Doramas[cellData[0]].IsLoaded)
                 continue;
@@ -78,10 +129,10 @@ public class MainLoader
 
             if (string.IsNullOrEmpty(TextureURL))
                 continue;
-            
+
             using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(TextureURL))
             {
-            
+
                 yield return www.SendWebRequest();
 
                 if (!www.isDone)
@@ -89,7 +140,7 @@ public class MainLoader
 
                 Texture2D posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
                 Sprite sprite = Sprite.Create(
-                    posterTexture, new Rect(0,0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
+                    posterTexture, new Rect(0, 0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
                 DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
                 DataBase.Doramas[cellData[0]].IsLoaded = true;
                 yield return null;
@@ -99,22 +150,9 @@ public class MainLoader
         DataBase.PostersIsLoaded = true;
     }
 
-    public IEnumerator GetDoramaData()
+    public IEnumerator ParseDoramaData(string data)
     {
-        string data;
-
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(DoramaDataURL))
-        {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-            data = webRequest.downloadHandler.text;
-        }
-
+        Debug.Log("DoramaData processed");
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -122,7 +160,6 @@ public class MainLoader
 
         string TitleRow = rowsData[0];
         string[] TitleRowData = TitleRow.Split(columnSplit);
-
         for (int column = 1; column < TitleRowData.Length; column++)
         {
             DoramaData doramaData = new();
@@ -159,26 +196,12 @@ public class MainLoader
 
             DataBase.Doramas.Add(TitleRowData[column], doramaData);
         }
-
         DataBase.DoramaIsReady = true;
     }
 
-    public IEnumerator GetLanguagesData()
+    public IEnumerator ParseLanguageData(string data)
     {
-        string data;
-
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(LanguagesURL))
-        {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-            data = webRequest.downloadHandler.text;
-        }
-
+        Debug.Log("LanguageData processed");
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -207,5 +230,59 @@ public class MainLoader
         LanguageTranslator.Initialization();
 
         DataBase.LanguagesIsReady = true;
+    }
+
+    public IEnumerator GetLocalData(Action callback = null)
+    {
+        yield return GetLanguagesDataLocal();
+        yield return GetDoramaDataLocal();
+        callback?.Invoke();
+        yield return GetDoramaPostersLocal();
+    }
+
+    public IEnumerator GetDoramaPostersLocal()
+    {
+        if (!PlayerPrefs.HasKey("_postersData"))
+            if (EthernetManager.ConnectionOn())
+            {
+                yield return GetDoramaPosters();
+                yield break;
+            }
+            else
+            {
+                Debug.Log("Connection problem, _postersData not loaded");
+            }
+        yield return GetDoramaPosters(PlayerPrefs.GetString("_postersData"));
+    }
+
+    public IEnumerator GetDoramaDataLocal()
+    {
+        if (!PlayerPrefs.HasKey("_doramaData"))
+            if (EthernetManager.ConnectionOn())
+            {
+                yield return GetDoramaData();
+                yield break;
+            }
+            else
+            {
+                Debug.Log("Connection problem, _doramaData not loaded");
+            }
+        yield return GetDoramaData(PlayerPrefs.GetString("_doramaData"));
+    }
+
+    public IEnumerator GetLanguagesDataLocal()
+    {
+        if (!PlayerPrefs.HasKey("_languageData"))
+            if (EthernetManager.ConnectionOn())
+            {
+                yield return GetLanguagesData();
+                yield break;
+            }
+            else
+            {
+                Debug.Log("Connection problem, _languageData not loaded");
+            }
+
+        yield return GetLanguagesData(PlayerPrefs.GetString("_languageData"));
     }
 }
