@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,7 +33,7 @@ public class GameStart : MonoBehaviour
     private void InitializeSceneObjects()
     {
         UpdateLoader updateLoader = new();
-        StartCoroutine(updateLoader.GetUpdate(Reload));
+        StartCoroutine(updateLoader.GetUpdate(UpdateReload));
         InitializeLanguageFlags();
     }
 
@@ -61,6 +62,16 @@ public class GameStart : MonoBehaviour
     public void Reload()
     {
         PlayerPrefs.DeleteAll();
+        DataBase.Doramas = new();
+        DataBase.DoramaIsReady = false;
+        DataBase.PostersIsLoaded = false;
+        DataBase.Languages = new();
+        DataBase.LanguagesIsReady = false;
+        SceneManager.LoadScene(0);
+    }
+
+    public void UpdateReload()
+    {
         DataBase.Doramas = new();
         DataBase.DoramaIsReady = false;
         DataBase.PostersIsLoaded = false;

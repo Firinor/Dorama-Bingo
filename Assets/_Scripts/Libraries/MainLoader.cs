@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,6 +13,8 @@ public class MainLoader
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
     private static readonly string PostersURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1844463073";
+    private static readonly string DataPath = Application.persistentDataPath;
+
 
     private static readonly string lineSplit = Environment.NewLine;
     private static readonly string columnSplit = "\t";
@@ -44,7 +47,7 @@ public class MainLoader
 
             Debug.Log("Posters Downloading...");
             data = webRequest.downloadHandler.text;
-            PlayerPrefs.SetString("_postersData", data);
+            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_postersData"), data);
             yield return ParsePostersData(data);
         }
     }
@@ -68,7 +71,7 @@ public class MainLoader
             }
 
             data = webRequest.downloadHandler.text;
-            PlayerPrefs.SetString("_doramaData", data);
+            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_doramaData"), data);
             yield return ParseDoramaData(data);
         }
     }
@@ -90,7 +93,7 @@ public class MainLoader
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            PlayerPrefs.SetString("_languageData", data);
+            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_languageData"), data);
             yield return ParseLanguageData(data);
         }
 
@@ -225,9 +228,8 @@ public class MainLoader
 
             DataBase.Languages.Add(LanguagesColumnData[column].Trim(), languagesData);
         }
-
+        
         LanguageTranslator.Initialization();
-
         DataBase.LanguagesIsReady = true;
     }
 
@@ -241,7 +243,7 @@ public class MainLoader
 
     public IEnumerator GetDoramaPostersLocal()
     {
-        if (!PlayerPrefs.HasKey("_postersData"))
+        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_postersData")))
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetDoramaPosters();
@@ -251,12 +253,12 @@ public class MainLoader
             {
                 Debug.Log("Connection problem, _postersData not loaded");
             }
-        yield return GetDoramaPosters(PlayerPrefs.GetString("_postersData"));
+        yield return GetDoramaPosters(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_postersData")));
     }
 
     public IEnumerator GetDoramaDataLocal()
     {
-        if (!PlayerPrefs.HasKey("_doramaData"))
+        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_doramaData")))
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetDoramaData();
@@ -266,12 +268,12 @@ public class MainLoader
             {
                 Debug.Log("Connection problem, _doramaData not loaded");
             }
-        yield return GetDoramaData(PlayerPrefs.GetString("_doramaData"));
+        yield return GetDoramaData(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_doramaData")));
     }
 
     public IEnumerator GetLanguagesDataLocal()
     {
-        if (!PlayerPrefs.HasKey("_languageData"))
+        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_languageData")))
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetLanguagesData();
@@ -282,6 +284,6 @@ public class MainLoader
                 Debug.Log("Connection problem, _languageData not loaded");
             }
 
-        yield return GetLanguagesData(PlayerPrefs.GetString("_languageData"));
+        yield return GetLanguagesData(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_languageData")));
     }
 }
