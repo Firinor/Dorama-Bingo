@@ -7,7 +7,7 @@ public class MainLoader
 {
     //DoramaDataGoogleDocs
     private static readonly string DoramaDataURL =
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv";
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1984545305";
     private static readonly string LanguagesURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
     private static readonly string PostersURL =
@@ -162,9 +162,9 @@ public class MainLoader
         for (int column = 1; column < TitleRowData.Length; column++)
         {
             DoramaData doramaData = new();
-
             for (int row = 1; row < rowsData.Length; row++)
             {
+                
                 string[] rowData = rowsData[row].Split(columnSplit);
 
                 string tag = rowData[0];
