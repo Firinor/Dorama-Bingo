@@ -8,7 +8,7 @@ using System.IO;
 public class UpdateLoader
 {
     private static readonly string DoramaDataURL =
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv";
+        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1984545305";
     private static readonly string LanguagesURL =
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
     private static readonly string PostersURL =
