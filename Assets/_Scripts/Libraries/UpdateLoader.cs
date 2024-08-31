@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine;
 using System;
+using System.IO;
 
 
 public class UpdateLoader
@@ -47,7 +48,7 @@ public class UpdateLoader
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            if (!data.Equals(PlayerPrefs.GetString("_doramaData")))
+            if (!data.Equals(File.ReadAllText(String.Format("{0}/{1}", Application.persistentDataPath, "_doramaData"))))
                 yield return DoramaUpdate();
         }
     }
@@ -65,7 +66,7 @@ public class UpdateLoader
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            if (!data.Equals(PlayerPrefs.GetString("_languageData")))
+            if (!data.Equals(File.ReadAllText(String.Format("{0}/{1}", Application.persistentDataPath, "_languageData"))))
                 yield return LanguageUpdate();
         }
     }
@@ -83,7 +84,7 @@ public class UpdateLoader
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            if (!data.Equals(PlayerPrefs.GetString("_postersData")))
+            if (!data.Equals(File.ReadAllText(String.Format("{0}/{1}", Application.persistentDataPath, "_postersData"))))
                 yield return PostersUpdate();
         }
     }
@@ -92,6 +93,7 @@ public class UpdateLoader
     public IEnumerator DoramaUpdate()
     {
         Debug.Log("Dorama Update");
+        File.Delete(String.Format("{0}/{1}", Application.persistentDataPath, "_doramaData"));
         _isNeedToUpdate = true;
         yield return null;
     }
@@ -99,6 +101,7 @@ public class UpdateLoader
     public IEnumerator LanguageUpdate()
     {
         Debug.Log("Language Update");
+        File.Delete(String.Format("{0}/{1}", Application.persistentDataPath, "_languageData"));
         _isNeedToUpdate = true;
         yield return null;
     }
@@ -106,6 +109,7 @@ public class UpdateLoader
     public IEnumerator PostersUpdate()
     {
         Debug.Log("Posters Update");
+        File.Delete(String.Format("{0}/{1}", Application.persistentDataPath, "_postersData"));
         _isNeedToUpdate = true;
         yield return null;
     }
