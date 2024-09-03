@@ -1,33 +1,19 @@
 using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class MainLoader
 {
-    //DoramaDataGoogleDocs
-    private static readonly string DoramaDataURL =
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1984545305";
-    private static readonly string LanguagesURL =
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=2002448881";
-    private static readonly string PostersURL =
-        "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1844463073";
-    private static readonly string DataPath = Application.persistentDataPath;
-
-
     private static readonly string lineSplit = Environment.NewLine;
     private static readonly string columnSplit = "\t";
-
     private static readonly int minLimit = 16;
 
     public IEnumerator GetData(Action callback = null)
     {
-        yield return EthernetManager.ConnectionEstablish(DoramaDataURL);
+        yield return EthernetManager.ConnectionEstablish();
         yield return GetLocalData(callback);
     }
-
-
 
     public IEnumerator GetDoramaPosters(string data = null)
     {
@@ -36,20 +22,9 @@ public class MainLoader
             yield return ParsePostersData(data);
             yield break;
         }
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(PostersURL))
-        {
-            webRequest.timeout = 5;
+        yield return EthernetManager.PostersRemoteDownload();
+        yield return ParsePostersData(DataManager.IsExists("_postersData", true) ? DataManager.ReadData("_postersData", true) : DataManager.ReadData("_postersData", false));
 
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-            Debug.Log("Posters Downloading...");
-            data = webRequest.downloadHandler.text;
-            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_postersData"), data);
-            yield return ParsePostersData(data);
-        }
     }
 
     public IEnumerator GetDoramaData(string data = null)
@@ -59,21 +34,8 @@ public class MainLoader
             yield return ParseDoramaData(data);
             yield break;
         }
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(DoramaDataURL))
-        {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-            {
-                yield break;
-            }
-
-            data = webRequest.downloadHandler.text;
-            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_doramaData"), data);
-            yield return ParseDoramaData(data);
-        }
+        yield return EthernetManager.DoramaRemoteDownload();
+        yield return ParseDoramaData(DataManager.IsExists("_doramaData", true) ? DataManager.ReadData("_doramaData", true) : DataManager.ReadData("_doramaData", false));
     }
 
     public IEnumerator GetLanguagesData(string data = null)
@@ -83,37 +45,26 @@ public class MainLoader
             yield return ParseLanguageData(data);
             yield break;
         }
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(LanguagesURL))
-        {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-            data = webRequest.downloadHandler.text;
-            File.WriteAllText(String.Format("{0}/{1}", DataPath, "_languageData"), data);
-            yield return ParseLanguageData(data);
-        }
-
+        yield return EthernetManager.LanguageRemoteDownload();
+        yield return ParseLanguageData(DataManager.IsExists("_languageData", true) ? DataManager.ReadData("_languageData", true) : DataManager.ReadData("_languageData", false));
     }
 
     public IEnumerator ParsePostersData(string data)
     {
+    #if UNITY_EDITOR
         Debug.Log("PostersData processed");
+    #endif
         if (string.IsNullOrEmpty(data))
             yield break;
 
         string[] rowsData = data.Split(lineSplit);
 
-        for (int row = 0; row < rowsData.Length; row++)
+        for (int row = 1; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(columnSplit);
             
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
-
 
             if (DataBase.Doramas[cellData[0]].IsLoaded)
                 continue;
@@ -154,7 +105,9 @@ public class MainLoader
 
     public IEnumerator ParseDoramaData(string data)
     {
+    #if UNITY_EDITOR
         Debug.Log("DoramaData processed");
+    #endif
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -167,7 +120,7 @@ public class MainLoader
             DoramaData doramaData = new();
             for (int row = 1; row < rowsData.Length; row++)
             {
-                
+
                 string[] rowData = rowsData[row].Split(columnSplit);
 
                 string tag = rowData[0];
@@ -203,7 +156,9 @@ public class MainLoader
 
     public IEnumerator ParseLanguageData(string data)
     {
+    #if UNITY_EDITOR
         Debug.Log("LanguageData processed");
+    #endif
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -239,11 +194,13 @@ public class MainLoader
         yield return GetDoramaDataLocal();
         callback?.Invoke();
         yield return GetDoramaPostersLocal();
+
     }
 
     public IEnumerator GetDoramaPostersLocal()
     {
-        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_postersData")))
+        if (!DataManager.IsExists("_postersData", false) || EthernetManager._isNeedToUpdate)
+        {
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetDoramaPosters();
@@ -251,14 +208,22 @@ public class MainLoader
             }
             else
             {
+        #if UNITY_EDITOR
                 Debug.Log("Connection problem, _postersData not loaded");
+                yield break;
+        #endif
             }
-        yield return GetDoramaPosters(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_postersData")));
+        }
+        else
+        {
+            yield return GetDoramaPosters(DataManager.IsExists("_postersData", true) ? DataManager.ReadData("_postersData", true) : DataManager.ReadData("_postersData", false));
+        }
     }
 
     public IEnumerator GetDoramaDataLocal()
     {
-        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_doramaData")))
+        if (!DataManager.IsExists("_doramaData", false) || EthernetManager._isNeedToUpdate)
+        {
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetDoramaData();
@@ -266,14 +231,21 @@ public class MainLoader
             }
             else
             {
+        #if UNITY_EDITOR
                 Debug.Log("Connection problem, _doramaData not loaded");
+                yield break;
+        #endif
             }
-        yield return GetDoramaData(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_doramaData")));
+        } else
+        {
+            yield return GetDoramaData(DataManager.IsExists("_doramaData", true) ? DataManager.ReadData("_doramaData", true) : DataManager.ReadData("_doramaData", false));
+        }
     }
 
     public IEnumerator GetLanguagesDataLocal()
     {
-        if (!File.Exists(String.Format("{0}/{1}", DataPath, "_languageData")))
+        if (!DataManager.IsExists("_languageData", false) || EthernetManager._isNeedToUpdate)
+        {
             if (EthernetManager.ConnectionOn())
             {
                 yield return GetLanguagesData();
@@ -281,9 +253,14 @@ public class MainLoader
             }
             else
             {
+        #if UNITY_EDITOR
                 Debug.Log("Connection problem, _languageData not loaded");
+                yield break;
+        #endif
             }
-
-        yield return GetLanguagesData(File.ReadAllText(String.Format("{0}/{1}", DataPath, "_languageData")));
+        } else
+        {
+            yield return GetLanguagesData(DataManager.IsExists("_languageData", true) ? DataManager.ReadData("_languageData", true) : DataManager.ReadData("_languageData", false));
+        }
     }
 }

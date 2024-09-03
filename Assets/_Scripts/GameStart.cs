@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,12 +13,8 @@ public class GameStart : MonoBehaviour
     void Awake()
     {
         LoadAll();
-
         MainLoader loader = new();
-
-
         StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
-
     }
 
     private void LoadAll()
@@ -33,7 +28,7 @@ public class GameStart : MonoBehaviour
     private void InitializeSceneObjects()
     {
         UpdateLoader updateLoader = new();
-        StartCoroutine(updateLoader.GetUpdate(UpdateReload));
+        StartCoroutine(updateLoader.GetUpdate(SceneReload));
         InitializeLanguageFlags();
     }
 
@@ -59,18 +54,13 @@ public class GameStart : MonoBehaviour
         }
     }
 
-    public void Reload()
+    public void DataReload()
     {
         PlayerPrefs.DeleteAll();
-        DataBase.Doramas = new();
-        DataBase.DoramaIsReady = false;
-        DataBase.PostersIsLoaded = false;
-        DataBase.Languages = new();
-        DataBase.LanguagesIsReady = false;
-        SceneManager.LoadScene(0);
+        SceneReload();
     }
 
-    public void UpdateReload()
+    public void SceneReload()
     {
         DataBase.Doramas = new();
         DataBase.DoramaIsReady = false;

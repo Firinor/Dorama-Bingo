@@ -1,0 +1,275 @@
+1.0.0	38 Task Force Special	A Korean Odyssey	A Shop for Killers	A Time Called You	Alchemy of Souls	All of Us Are Dead	Big Mouth	Bloodhounds	Business Proposal	Coffee Prince	Crash Landing on You	Death's Game	Descendants of the Sun	Doom at Your Service 	Dr. Romantic	Dream High	Duty after School	Empress Ki	Extraordinary Attorney Woo	Flower of Evil	Ghost Doctor	Goblin 	Happiness	High School Return of a Gangster	Hit the Top	Hometown Cha-Cha-Cha	Hospital Playlist	Hwarang: The Poet Warrior Youth	IRIS	Itaewon Class	It's Okay to Not Be Okay	Juvenil Justice	Kill Me Heal Me	Kingdom	Love in the Moonlight	Lovely Runner	Marry My Husband	Misaeng: Incomplete Life	Miss Night and Day	Missing: The Other Side	Moon Lovers: Scarlet Heart Ryeo	Mouce	Move to Heven	Moving	Mr. Queen	Mr. Sunshine	My Dearest	My Holo Love	My Love from the Star	My Mister	Navillera	Oh My Venus	Our Beloved Summer	Our Blues	Perfect Marriage Revenge	Pyramid Game	Queen of Tears	Reborn Rich	Reply 1988	Secret Garden	Shooting Stars	Shopping King Louie	SKY Castle	Squid Game	Strong Girl Do Bong Soon	Sweet Home	Tale of the Nine Tailed	The Atypical Family	The Beauty Inside	The Glory	The Good Bad Mother	The Heirs	The King: Eternal Monarch	The Light in Your Eyes	The Scholar Who Walks the Night	The Uncanny Counter	The Worst of Evil	Tomorrow	True Beauty	Twenty-Five Twenty-One	Twinkling Watermelon	Vincenzo	W 	Weak Hero Class 1	Weightkifting Fairy Kim Bok Joo	Welcome to Waikiki	While You Were Sleeping	Wonderful World	K-Dramas
+airport / plane				yes	no				yes		yes	yes	yes	no									no						yes	yes				no		yes					no			yes	no	no														yes		yes																			yes			no				yes	
+ambulance				yes	no				yes		yes	yes	yes	yes							yes		yes						yes	yes				no		yes	yes																							yes		yes																			yes							yes	
+amusement park				yes	no				yes		no	no	no	yes			yes						no							no				no		yes																					yes			no																		yes			yes							yes	
+army				no					no		yes	no	yes	yes			yes				no	yes	yes						yes	no				yes		no			no								yes													yes																		yes			yes							yes	
+bar									yes		yes		yes						yes		yes	yes								yes							yes									yes																																											
+beach / costal area				yes					yes		yes	no	yes	yes			yes		yes				no							no						yes										yes	yes										yes			yes		yes																			yes							yes	
+blooming trees 				yes					yes		no	yes	yes	yes									no							no						yes	yes																																									yes			yes							yes	
+bridge				yes	no				yes		yes	yes		yes									no						yes	yes						yes			yes		yes																					yes																			yes							yes	
+Buddhist temple				no					no		no	no	yes	no					yes				no							no						no																																										yes			no							no	
+building construction				yes					no		no	no		no									yes							no						no																																													yes							yes	
+bus stop / bus				yes	no				yes		yes	no	yes	yes					yes	yes			no						yes	yes				no		yes	yes	yes	yes				yes	yes			no				yes		yes			yes	yes	yes	yes	yes		yes	yes		yes		yes			yes	yes		yes			yes		yes		yes	yes	yes	yes	yes			yes	yes	
+camping				no	no				yes		no	no	yes	no			yes						no							no						no																										yes																			no							no	
+cemetery				yes					no		no	yes	yes	yes									no						yes	yes						yes	yes									yes											yes	yes		yes		yes																yes			yes							yes	
+Christian church				yes	no				no		yes	yes	yes	yes									yes						yes	yes						yes																								yes																		yes			no							no	
+cinema				yes	no				yes		yes	no	yes	no								yes	no							yes						no																										yes																			yes							yes	
+college / university				yes					no		yes	no	yes	no								yes	no							yes						yes																																													yes							yes	
+convenience store				yes	no				yes		yes	yes	no	yes									yes							yes				no		yes		yes	yes					yes													yes			yes		yes	yes		yes		yes			yes	yes		yes			yes		yes		yes	yes	yes	yes	yes			yes	yes	
+countryside road				yes	yes				yes		yes	yes	yes	no			yes					yes	yes						yes	no						yes			yes		yes					yes											yes			yes		yes					yes											yes			yes							yes	
+court				no					yes		yes	yes	no	yes					yes				yes							yes						no			yes																					no																					no							no	
+crosswalk				yes					yes		yes	yes		yes						yes	yes	yes	no						yes	yes				no		yes	yes	yes	yes				yes	yes		yes					yes		yes			yes	yes	yes	yes			yes	yes		yes		yes			yes	yes		yes			yes				yes	yes	yes	yes	yes			yes	yes	
+dormitory 				no					no		no	no	yes	yes			yes						no							yes						no																								no																					yes							yes	
+elevator				yes	no				yes		yes	yes	yes	yes									yes							yes				no		yes		yes	yes							no														yes																					no							no	
+hagwon / academy				yes					no		no	no		no							no		no							no						no																								no																					no							no	
+hospital				yes					yes		yes	yes	yes	yes					yes	yes	yes		yes						yes	yes				yes		yes	yes	yes								yes														yes		yes																yes			yes							yes	
+hotel				no					yes		yes	no	yes	no									no						yes	no						yes										yes											yes			yes																		yes											
+Internet cafe				yes	no				no		yes	no	no	no									no							no				no		no										no														no																					yes							yes	
+Jeju island				no	no				no		no	no		yes			no		yes			no	no							yes						no		no																						yes																					no							no	
+karaoke				no	no				yes		no	no	no	yes								no	yes							yes				no		yes										no														yes																					yes							yes	
+motel				yes					no		no	no	no	no								no	yes							no						no			yes							no														no																					no							no	
+natural park				no					yes		no	yes	yes	no					yes			no	no							no						no																					yes			yes																					yes							yes	
+night club				no	no				no		no	yes	no	no						no		no	no							yes				no		no	no		yes							no														no																					no							no	
+office				yes					yes		no	yes	no	yes					yes				no							yes						no	yes	yes	yes																		yes			no		yes																yes			no							no	
+ordinary eatery				yes					yes		yes	yes	yes	yes					yes			yes	yes						yes	yes						yes			yes																		yes			yes		yes																yes			yes							yes	
+orphanage home				yes					yes		no	no	yes	yes									no							yes						no																								yes																					no							no	
+palace					yes															no		yes												yes					no		yes				yes	yes	yes																				yes																						
+pharmacy				no					yes		no	no	yes	no									no							no						no										yes											yes			no		yes																yes			yes							yes	
+photo booth				no	no				no		no	no	no	no									no							no				no		yes										no														no																					no							no	
+playground 				no					yes		no	yes	yes	no									yes							yes						yes																								yes		yes					yes														yes							yes	
+police station				yes					yes		no	yes	no	no						yes	yes		yes						yes	yes						yes			yes																		yes			yes																		yes			yes							yes	
+restaurant				no					yes		yes	no	yes	yes									yes						yes	yes						yes																					yes			yes																					yes							yes	
+prison/jail				yes					no		yes	yes	yes	yes					yes				no							yes						no																								no		yes																yes			no							no	
+public bathhouse				no					no		yes	no	no	no								no	no						yes	yes						yes					yes																			yes		yes																			yes							yes	
+river Han				yes	no				yes		no	yes	no	yes									no						yes	yes						yes																					yes			yes																					no							no	
+roof's room 				no	no				no		no	yes	no	yes									no							no																														yes																													
+school				yes					no		yes	yes	no	yes			yes					yes	yes						no	yes						yes		yes	no					yes	no	yes			no		no		yes			yes		yes	yes	no		no	yes		yes		yes			yes	yes		no			yes				yes	yes	no	no	yes			no		
+shower				no					yes		yes	no	yes	no									yes							no						yes																					yes			no																					no								
+slot machine				no	no				no		no	yes	no	no							no	no	no							yes				no		no	yes		no		no					no														no																					no								
+stadium / pool / gym				yes					yes		no	yes	yes	yes			yes				yes		yes							yes						yes	yes	no			no		no	yes	no		no		no		yes		yes			yes		yes	yes	yes		yes			yes		no			yes	yes		yes			yes				yes	yes	yes	yes	yes			yes		
+street snack cart				yes	no				yes		no	no	no										no							no				no		yes																					yes			no																		yes			yes								
+study cube / room				no	no				no		no	no	no	no							no	no	no							no				no		yes	no	no	no							no														no																					no								
+stylish interior				no					yes		yes	yes	no	yes									no							yes						yes			no		yes																yes			yes		yes					yes											yes			no								
+taxi				yes	no				yes		yes	no	yes	yes									no							yes				no		yes			yes																		yes			yes																		yes			yes								
+traditional hanok				no	yes				no		no	no	no	no									no							no				yes		yes			no		yes					yes			yes								yes			yes		yes																yes			yes								
+typical appartment				yes	no				yes		yes	yes	yes	yes					yes	yes			yes							no						yes	yes		yes																							yes																yes			yes								
+underwater				no	 				no		no	yes	yes	no									no							no						yes			no		yes																yes			no																					yes								
+																																																																																									
+alcohol etiquette				yes					yes		yes		no	yes									yes							yes						yes			yes																																																		
+amnesia				yes					no		yes	no		yes						yes			no							no						yes																								yes		yes																			yes								
+back hug				yes					yes		yes	no	no	yes									yes							yes						yes																								yes		yes																			yes								
+blind date				yes					yes		yes	no	yes	yes									no							yes						yes																					yes			yes		yes																			yes								
+bulling				yes					no		yes	yes	yes	no			yes					yes	no							yes						yes	yes							yes												yes		yes		yes			yes		yes					yes	yes		no			yes		yes		no	yes	no	no	yes					
+car accident				yes	no				yes		yes	yes	yes	yes								yes	no							yes				no		yes																								yes		yes																											
+celebration of multiple dates				yes					yes		no	no		yes									no							no						no																																																					
+Christmas / New Year				yes	no				yes		yes	no	yes	no									no							yes				no		yes										no														yes																					yes								
+chase											yes		yes																										yes																																																		
+clench fists				yes					yes		yes	yes	yes	yes									yes							yes						yes																								yes		yes																											
+coma				yes					no		no	no	no	no						yes	yes		yes							yes						no																								yes																													
+comforting pat				no					yes		yes	no	yes	yes									yes							yes						yes			yes																							yes																			yes								
+commemoral ritual of ancestors				no	yes				yes		yes	no	yes	no									no							yes						yes																										yes																											
+cooking				yes	yes				yes		yes	yes	yes	yes					yes	yes	yes	yes	yes							yes				yes		yes	yes		yes																					yes		yes																											
+corporative/afterparty/hweshik				no					yes		yes	yes	yes	yes					yes				no							yes						yes																								yes		yes																											
+correspondence on paper											yes																																			yes																																											
+countdown				yes					yes		yes	no	yes	yes					yes				no							yes						no																								yes																					yes								
+delivery																																																																																									
+divination				yes	yes				no		yes	no	no	no									no							no						yes																								no																													
+exam/test				yes					no		no	no	yes	yes			yes		yes				no							no						yes																																																					
+fasten seat belt in car				yes	no				yes		yes	yes	yes	yes					yes	yes			yes							yes				no		yes			yes							no											yes			yes		yes																											
+fireworks				no					yes		no	no	no	no									no							no						yes																								no		yes																											
+fight											yes		yes																																																																												
+first birthday ceremony/dolchanji				no	no				no		yes	yes		yes			no				no		no							no						yes	no																							no																					yes								
+ snow				yes					no		yes	no	yes	yes									no							yes						yes																								yes																					yes								
+fishing				no					yes		yes	no	yes	no									no							no						no			yes																					no																													
+fish kiss/light touch				yes					yes		yes	no	no	yes					yes				no							yes						yes			yes																					yes		yes																			yes								
+folding linen and clothes				no					yes		yes	no	yes	yes									no							yes						yes																								yes		yes																			yes								
+foreign trip				yes					yes		yes	yes	yes	yes					yes				yes							yes						yes		yes								yes														yes		yes																			yes								
+funeral				yes					yes		yes	yes	yes	yes									yes							yes						yes	yes																				yes			yes		yes																			yes								
+hair pulling											yes		yes																																																																												
+hair washing				yes					yes		yes	no	yes	yes									yes							no						yes																								yes																													
+interview				no					no		no	yes	yes	yes									no							yes						yes																								yes																													
+kneel				yes					yes		yes	yes	no	yes								yes	no							yes						yes																								yes		yes																			yes								
+magic				yes	yes				no		no	yes		yes			no		no	no	yes	yes	no							no				no		yes	yes	no						yes	yes	no	no				no						no	yes	no	yes		no	no		yes		yes			no	no					yes		yes		no	yes	no		no					
+make shade from the sun											yes																																																																														
+medical tests				yes					yes		yes	yes	yes	yes						yes	yes		yes							yes						yes	yes		yes																					yes																					yes								
+meeting parents				no	yes				yes		yes	no	yes	yes									yes							yes						yes	yes																							yes																					yes								
+mountain hiking				no	yes				yes		yes	yes		yes									no							no						no			yes																					yes																													
+naked torso / topless man				yes					yes		yes	no	yes	no									no							no						yes																								yes		yes																			yes								
+nosebleed				yes					yes		yes	yes		yes									no							yes						no																								yes		yes																			yes								
+piggy back ride				no					yes		yes	yes	no	no									no							yes						yes			yes																		yes			no		yes																yes			yes								
+pinky promise				no					yes		yes	yes	yes	no									no							no						yes																								no		yes																			yes								
+picnick				yes					no		yes	no	no	no									yes							yes						yes										yes																																											
+prophetic dream				no	yes				no		no	no	no	yes									no							no						no																								yes																													
+proposal				no	yes				yes		yes	no	yes	yes									yes							no						yes	yes																							yes		yes																											
+pour drinks like a pro				no					yes		no	yes	yes	no									no							yes						no																																																					
+real tears crying				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes		yes	yes							yes				yes		yes	yes		yes							yes											yes			yes		yes																yes			yes								
+rithual/exorcism				no					yes		no	no	no	no									no							no						yes																								yes																													
+rock-paper-scissors				no	no				yes		no	no	yes	no									no							no						no																								no																					yes								
+rumbling in the stomach				no					yes		yes	no	no	no									no							no						yes																										yes																			yes								
+running / jogging				yes					yes		yes	yes	yes	yes			yes						yes							yes						yes										yes														yes		yes																			yes								
+serious illness				yes	yes				yes		yes	yes	yes	yes									yes							yes				yes		yes	yes																							yes		yes																			yes								
+sharp car/motorbike turn				no	no				yes		no	yes	yes	yes									no							yes				no		yes			yes							no														yes																													
+shopping				no					yes		yes	yes	yes	yes					yes				yes							yes						yes																								yes		yes																			yes								
+signing a contract				no					yes		yes	yes	yes	yes			yes		yes				yes							yes						yes																								yes		yes																			yes								
+sign languages/lip reading				no	no				no		no	no	no	no			no						yes							no				no		no										no														no																					yes								
+slap											yes																																																																														
+sleep in clothes				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes	yes	yes	yes							yes						yes	yes		yes							yes														yes		yes																											
+social media				yes	no				yes		yes	yes	yes	yes					yes	yes	yes		yes							yes				no		yes	yes		yes																		yes			yes		yes																yes			yes								
+splash/pour water over				no							yes	no		yes																																														yes																													
+studies				yes					no		yes	yes	yes	no			yes					yes	yes							yes						yes	no																																												yes								
+suicide/attempted suicide				yes					no		yes	yes	no	yes									yes							yes						yes																								yes																					yes								
+superpower				no	yes				no		no	yes		yes			no		no	no	no	yes	no							no				no		no	no	no						yes	no	no	no				no						no	no	no	no		no	no		yes		yes			no						no		yes		no	yes	no		no					
+teeth brushing				yes					yes		yes	no	yes	yes									no							no						yes			yes																																																		
+wedding				no					no		no	no	yes	yes									no							no						yes	yes									yes																yes																											
+washing 				yes					no		yes	no	yes	yes									no							no						no																								yes																					yes								
+waste sorting				no	no				yes		no	no	no	yes									yes							no				no		yes										no														no																													
+																																																																																									
+amulet				no							yes																																																								yes																						
+apron				yes					yes		no	yes	yes	yes									yes							yes						no																								yes																					yes								
+bike											yes																																																																														
+baseball bat				no	no				no		yes	yes	no	yes									yes							yes				no		no										no																yes																											
+baseball hat 				no	no				yes		yes	yes	yes	yes									yes											no		yes										no																yes																			yes								
+bicycle				no	no				no		yes	yes	no	no									no							yes				no		yes			yes																					yes		yes																			yes								
+book											yes																			yes																														yes			yes																					yes					
+bouquet				yes					yes		yes	yes	yes	yes									no							no						yes																								yes																					yes								
+cash				yes	yes				yes		yes	yes	yes	yes						yes	yes	yes	yes							yes						yes	yes		yes							yes														yes		yes																			yes						yes		
+candle				no							yes		yes									yes	yes																																																																		
+coffee maker				yes	no				yes		yes	yes	no	yes					yes			yes	no							no				no		yes																																													yes								
+cosmetic mask											yes		yes																																																																												
+credit card				no	no				yes		yes	yes	no	yes									yes							no				no												no																yes																											
+designer's / brend items				no	no				yes		yes	yes	yes	yes								yes	no							yes				no		yes																								yes																					yes								
+digital door lock											yes																																																																														
+drop counter				yes	no				yes		yes	yes	yes	yes					yes	yes	yes		yes							yes				no		yes	yes									no														yes		yes																			yes								
+european cutlery				yes	no				yes		yes	yes	yes	yes									no							yes				no		yes																								yes																													
+family pictures				yes					yes		yes	yes	yes	yes					yes	yes			yes							yes						yes	yes									yes														yes																					yes								
+funny hat											yes								yes																																																																						
+golf iron				no	no				yes		yes	no	no	yes									yes							no				no		no	yes									no														yes																													
+gun/weapon				no	no				no		yes	yes	yes	no			yes					no	yes							no				no		no	no	no						yes		yes												no	no	no		no	no																		yes								
+hanbok				no	yes				no		yes	no	no	no			no					yes	no							yes				yes		yes			yes							yes			yes											yes																													
+handcuffs				yes					yes		yes	yes	yes	no					yes	yes			yes							no				no		yes																																													yes								
+household gloves											yes																																																																														
+headphones / earphones				yes	no				yes		yes	yes	yes	yes					yes				yes							yes				no		yes			yes							no														yes																					yes								
+head rim				yes	no				yes		no	no	no	yes									no							yes				no		yes										no														no																					yes								
+kitchen knife				yes					yes		yes	yes	yes	yes					yes	yes		yes	yes							yes						yes																								yes																					yes								
+medical/facecovering  mask					no				yes		yes	no	yes	yes							yes		yes							yes				no		yes										yes																yes																			yes								
+medicine				yes					yes		yes	yes	yes	yes									yes							yes						yes			yes							yes														yes		yes																			yes								
+microwave				yes	no				no		no		no	yes									yes							no				no												no																																											
+money count				no	no				yes		no	yes	yes	yes									no							yes				no																																																							
+paired items				yes					yes		yes	no	no	no									no							no				no		yes																								yes		yes																											
+pan/saucepan				no					yes		yes		yes	yes					yes			yes	yes							yes						yes																								yes																					yes								
+patch				yes	no				no		no	yes	yes	yes									yes							yes				no		yes			yes																					yes		yes																											
+people search flyer				no					no		no	no	yes	no									no							yes						no																								no		yes																			yes								
+report card											yes																																																																														
+ring				yes					yes		yes	no	yes	no									yes							no						yes			yes																					yes			yes																										
+Samsung or Apple phone				yes	no				yes		yes	yes	yes	yes					yes	yes	yes	yes	yes							yes				no		yes	yes	yes	yes							no														yes		yes																											
+scarf				yes					yes		no		yes	yes								yes	no							no				no		yes																								yes																													
+scootter				yes	no				yes		yes	no	yes	yes									no							yes				no												no																																			yes								
+sleep mask											yes								yes																																																																						
+slippers				yes	no				yes		no	yes	yes	yes					yes	yes		yes	yes							no				no		yes																								yes																													
+soft toy				no					yes		no	yes	yes	no					yes				no							no				no																										yes		yes																			yes								
+shoes and boots (close-up)				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes		yes	yes							yes				yes		yes	yes	yes	yes							yes														yes		yes																			yes								
+sunglasses				no	no				yes		yes	yes	yes	no									yes							yes				no		yes																								yes		yes																			yes								
+sword/dagger/knife				no	yes				no		yes	yes	yes	yes			yes			yes		yes												yes												yes	yes				no																yes																						
+tickets				yes	no				no		yes	no	yes	no									no							yes				no		yes																								yes																					yes								
+traditional chopsticks and spoon				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes		yes	yes							yes				yes		yes	yes	yes								yes														yes																													
+umbrella				yes					yes		yes	yes	yes	yes								yes	yes							yes						yes			yes																					yes		yes																			yes						yes		
+uniform				yes							yes		yes	yes			yes					yes	yes							yes						yes			yes					yes		yes											yes	yes	yes	yes		yes	yes							yes	yes					yes		yes		yes		yes		yes					
+wheelchair 									no		yes	yes	yes	yes									no							yes				no		yes			yes																					yes		yes																											
+works of art				yes					yes		yes	yes	yes	yes						yes		yes	yes							no																yes														yes		yes																			yes								
+																																																																																									
+abalone 				no					yes		no	no	no	no									no							yes																																yes																											
+beer				yes					yes		yes	no	yes	yes					yes			yes	yes							yes						yes		yes	yes																					yes																					yes								
+cake with candles				yes	no				yes		yes	no	no	yes								yes	no							no				no		yes																								yes																					yes								
+coffee				yes	no				yes		yes	yes	yes	yes					yes			yes	yes							yes				no		yes		yes	yes																		yes			yes		yes					yes			yes	yes		yes			yes		yes		yes	yes	yes	yes				yes		
+fried chicken				yes					yes		yes	no	yes	yes					yes			yes	yes							no				no					yes																																										yes								
+egg											yes																																																	yes																													
+grilled meat/ fish and other/bulgogi				no					yes		yes		yes	yes									no							yes																														yes		yes																			yes								
+ginseng											yes			no																									yes																																																		
+hangover cure				yes					yes		yes	no	no	yes									yes							no						yes																																													yes								
+ice cream				yes					no		no	no	yes	no									no							yes						yes			yes																							yes																			yes								
+jajangmyeon				yes							yes			no																									yes																																																		
+kimbap				no							yes	no	no	yes					yes											yes																																																											
+korean beef				no					yes		no	no	no	no																no																																																			yes								
+liquor/tincture				no					no		yes	no	no	no									no							no																																																											
+makgeolli				no					yes		no	no	no	yes									no							no						yes																																													yes								
+peeled and chopped fruits				yes					yes		yes	no	yes	yes									yes							yes																														yes		yes																			yes								
+ramen				yes					no		yes	yes	yes	yes									yes							yes						yes																								yes		yes																			yes								
+released tofu				no					no		yes	yes	yes	no									no							yes						no																								yes																													
+samgyopsal				no					no			no	yes	no									no							no						yes																								yes																					yes								
+samgyotan				no					yes			no	yes	no																																																																											
+seaweed soup				no					yes		yes	no	no	no									no							no						yes																								yes																													
+soju				yes					yes		yes	yes	yes	yes									yes							yes						yes		yes																						yes																					yes								
+somaek				no							no			yes																																																																											
+spicy chicken feet				no					no		no	no	no	no					no				no							no									no																																																		
+sunde				no							no		no	no									no							no																														yes																													
+toppokki				yes					yes		yes	no	no	yes								yes	no							no						yes																																													yes								
+wine				no					yes		yes	no	yes	yes									yes							yes				no		yes			yes																					yes																					yes								
+																																																																																									
+alien				no	no				no		no	no	no	no			yes		no	no	no	no	no						no	no				no		no	no	no	no		no			no	no	no	no		yes		no					no	no	no	no	no		no	no		no		no			no	no		no			no		no		no	no	no		no			no		
+bandit				no					no		yes	yes	yes	no					yes				yes							yes						yes			yes		yes					yes														no		yes																			yes						yes		
+bodyguard				no							yes		yes																																																				yes																						no		
+Buddhist monks/nuns				no	no				no		no	no	yes	no					yes				no							no						yes																								no																													
+Christian priests/monks/nuns				yes	no				yes		no	yes	no	no									yes							yes				no																										no																													
+doctor				yes							yes		yes								yes		yes											yes					yes		yes																			yes			yes								yes										yes								
+fan 				no					yes		yes	no	yes	no									no							yes				no		yes			yes							no														yes																													
+fortune teller				no							yes																														yes																																																
+grim reaper				no					no		no	no		no			no		no	no	no	yes	no							no				no		no	no	no	no		no			no	no	no	no				no						no	no	no	no		no	no		no		no			no	no							yes		no	no	no		no					
+god				no					no		no	yes		yes			no			no	no	no	no							no				no		no	no	no	no					no		no														no																					yes								
+hostage				no					no		yes	no	yes	no						yes			yes							yes						no	no	no						yes																no																													
+K-pop artists/idols/movie star				yes					yes		yes	no	yes	yes							yes		no							no				no		yes			yes					no		no														yes																					yes								
+king/vang				no	yes						no						no																	yes					no		yes			no	yes	yes																																											
+neighbours				no	yes				yes		yes	no		no					yes	yes			yes							yes				yes		yes					yes			yes		es																																											
+orphan				no					yes		yes	no	yes	yes								yes	yes							yes																														yes																					yes								
+policeman				yes					yes		yes	yes	yes	yes					yes	yes		yes	yes							yes				no		yes			yes					yes																yes																					yes								
+prince				no	yes						no						no																	yes					no		yes			no	yes																																												
+procecutor				no	no				no		yes	yes	no	yes					yes				no							yes				no					yes																																																		
+rich chaebol				no	no				yes		yes	yes		yes							yes		yes							yes				no		no								no		no														yes		yes																											
+scientist				no					no		no	no		no									yes							no						no								yes																no																													
+secretar				no					yes		yes	no		no									yes							yes						no		yes	yes					yes																yes		yes																											
+serial killer				yes					no		no	yes	no	no						yes			yes							no						yes		no	yes																					no		yes																											
+shaman				no					no		yes	yes		yes									no							no						yes																								no		no																											
+spirits/ghosts				no					no		no	yes		yes			no			no	no	yes	no							no						no	no	no			no			no		no														yes																													
+stalker				yes					yes		no	no	no	no									no							yes				no		yes																								no		yes																			yes								
+student				yes							yes	yes	no	no			yes		yes			yes	yes							yes				no		yes		yes						yes	no	yes	yes											yes	yes	no					yes		yes			yes	yes					yes					yes	no		yes					
+tutor/coach				yes							yes																																																				yes																										
+queen				no	yes						no						no																	yes					no		yes				yes																																										no		
+zombie				no	no				no		no	no		no			no		no	no	no	no	yes							no				yes		no	no	no	no		no					no														no																					yes						no		
+																																																																																									
+cactus											yes																												yes																																																		
+cat				yes																																			yes																																																		
+dog																																																																																									
+dolphin																			yes																																																																						
+dragon																																																																																									
+edelweiss											yes																																																																														
+monkey																																																																																									
+snake																																																																																									
+tomato											yes																																																																														
+turtle					yes																																																																																				
+whale																			yes																																																																						
+																																																																																									
+bromance				yes	yes				yes		no	no	yes	yes					no	no	yes	yes	no							yes						yes					yes					yes														yes																					yes								
+childhood psychotrauma				yes	yes				yes		yes	yes	no	no																yes						yes										yes														yes			yes																		yes								
+first love				yes							yes																																																																														
+hidden  secret				yes	yes				no		yes	yes	no	no					yes	yes			yes							yes				yes		no										yes														yes																					yes								
+love triangle				yes	yes				yes		yes	no	yes	yes									no							yes						yes	yes		yes		yes					yes														yes		yes	yes																		yes								
+nicknames instead of real names				no	yes				yes		yes	yes	yes	yes			yes			yes			yes							yes						yes			yes							yes														yes		yes																			yes								
+parental consent to marriage				no	yes				yes		yes	no	yes	yes									yes							yes						yes																								yes																													
+respect for elders				yes	yes				yes		yes	yes	yes	no									yes							yes				yes		yes					yes					yes														yes																					yes								
+revenge																																																																																									
+rigid hierarchy				no	yes				yes		yes	yes	yes	no									yes							yes				yes			yes				yes					yes														yes																					yes								
+time traveling				yes	no				no		no	yes		yes			no		no	no	no	yes	no							no				no		yes	yes	no	yes		yes	no	no	no	no	no	no		no		no		no			no	no	yes	no	no		no	no		no		no			no	no		yes			no		no		no	yes	no	no	no			no		
+																																																																																									
+animation/special effects				yes					yes		yes	yes	yes	yes			yes		yes											yes						yes																								yes		yes																			yes								
+eye-catching product placement				no					yes		yes	yes	yes	yes			yes		yes	yes			yes							yes						yes			yes																					yes		yes	yes																		yes								
+flash back				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes			yes							yes						yes	yes	yes	yes							yes														yes																													
+mixing genres				yes	yes				yes		yes	yes	yes	yes			yes		yes	yes	yes	yes	yes						yes	yes				yes		yes	yes	yes	yes		yes	yes	yes	yes	yes	yes	yes		yes		yes		yes			yes	yes	yes	yes	yes		yes	yes		yes		yes			yes	yes		yes			yes		yes		yes	yes	yes	yes	yes			yes		
+split screen				no					yes		yes	no	yes	no																no						yes			yes																					yes		yes																											
+time disorder				no					yes		no	no	yes	no									yes							yes						yes																								yes																					yes								
+toilet humor				no					yes		no	no	yes	no																no						yes																								yes		yes																			yes								
+																																																																																									
+aigoo									yes		yes	yes	yes	yes																no									yes																		yes					yes																			yes	yes	yes	yes			yes		
+be pathetic				yes					yes		yes	yes	yes	yes									yes							yes									yes																		yes			yes																						yes	yes	yes			yes		
+don't cross the line											yes																									yes																					yes																									yes	yes	yes			yes		
+faiting/good luck				yes					yes			yes	yes	yes																no																											yes																								yes	yes	yes	yes			yes		
+infuriates 				yes					yes		yes	yes		yes																yes																											yes			yes		yes																			yes	yes	yes	yes			yes		
+that's ok 									yes		yes	yes	yes	yes									yes							yes						yes	yes		yes																		yes																								yes	yes	yes	yes			yes		

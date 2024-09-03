@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 196867450}
   - component: {fileID: 196867451}
   - component: {fileID: 196867452}
+  - component: {fileID: 196867453}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -261,6 +262,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 638eaebe8577def4bb654562b86e750b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &196867453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196867448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ff9fd18646d254aa2ad14a832ccf4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &250671200 stripped
@@ -1886,6 +1899,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 196867450}
+    - target: {fileID: 3198232831646914305, guid: e8a37e8e2e1e7bd4db59f58fcecfb398, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DataReload
+      objectReference: {fileID: 0}
     - target: {fileID: 4887190705003754252, guid: e8a37e8e2e1e7bd4db59f58fcecfb398, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
