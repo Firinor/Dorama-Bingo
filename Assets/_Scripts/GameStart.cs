@@ -11,7 +11,7 @@ public class GameStart : MonoBehaviour
     [SerializeField] private CreateNewBingoCard CreateNewBingoCard;
 
     void Awake()
-    {
+    {   
         LoadAll();
         MainLoader loader = new();
         StartCoroutine(loader.GetData(callback: InitializeSceneObjects));

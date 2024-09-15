@@ -11,23 +11,24 @@ public class WindowManager : MonoBehaviour
 
     private BingoCard bingoCard;
 
-    public void NewCardWindowOn()
+    public void NewCardWindowVisible(bool hide)
     {
-        NewCardWindow.alpha = 1f;
-        NewCardWindow.blocksRaycasts = true;
-        NewCardWindow.interactable = true;
-    }
-
-    public void NewCardWindowOff() 
-    {
-        NewCardWindow.alpha = 0f;
-        NewCardWindow.blocksRaycasts = false;
-        NewCardWindow.interactable = false;
+        if (hide)
+        {
+            NewCardWindow.alpha = 0f;
+            NewCardWindow.blocksRaycasts = false;
+            NewCardWindow.interactable = false;
+        } else
+        {
+            NewCardWindow.alpha = 1f;
+            NewCardWindow.blocksRaycasts = true;
+            NewCardWindow.interactable = true;
+        }
     }
 
     public void ToMainWindow()
     {
-        NewCardWindowOff();
+        NewCardWindowVisible(true);
         LoadWindow.gameObject.SetActive(false);
         GameplayWindow.SetActive(false);
         MainWindow.SetActive(true);
@@ -36,7 +37,7 @@ public class WindowManager : MonoBehaviour
     public void OpenNewBingoCard()
     {
         MainWindow.SetActive(false);
-        NewCardWindowOn();
+        NewCardWindowVisible(false);
     }
 
     public void OpenLoadBingoCard()
@@ -53,7 +54,7 @@ public class WindowManager : MonoBehaviour
 
     public void OpenGameplayWindow()
     {
-        NewCardWindowOff();
+        NewCardWindowVisible(true);
         LoadWindow.gameObject.SetActive(false);
         MainWindow.SetActive(false);
         GameplayWindow.SetActive(true);

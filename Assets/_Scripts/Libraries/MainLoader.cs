@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
+using System.Linq.Expressions;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.XR;
 
 public class MainLoader
 {
-    private static readonly string lineSplit = Environment.NewLine;
-    private static readonly string columnSplit = "\t";
+    public static readonly string lineSplit = Environment.NewLine;
+    public static readonly string columnSplit = "\t";
     private static readonly int minLimit = 16;
 
     public IEnumerator GetData(Action callback = null)
@@ -21,10 +24,12 @@ public class MainLoader
         {
             yield return ParsePostersData(data);
             yield break;
+        } 
+        else
+        {
+            yield return EthernetManager.PostersRemoteDownload();
+            yield return ParsePostersData(DataManager.ReadData("_postersData", temp: DataManager.IsExists("_postersData", temp: true)));
         }
-        yield return EthernetManager.PostersRemoteDownload();
-        yield return ParsePostersData(DataManager.IsExists("_postersData", true) ? DataManager.ReadData("_postersData", true) : DataManager.ReadData("_postersData", false));
-
     }
 
     public IEnumerator GetDoramaData(string data = null)
@@ -34,8 +39,11 @@ public class MainLoader
             yield return ParseDoramaData(data);
             yield break;
         }
-        yield return EthernetManager.DoramaRemoteDownload();
-        yield return ParseDoramaData(DataManager.IsExists("_doramaData", true) ? DataManager.ReadData("_doramaData", true) : DataManager.ReadData("_doramaData", false));
+        else
+        {
+            yield return EthernetManager.DoramaRemoteDownload();
+            yield return ParseDoramaData(DataManager.ReadData("_doramaData", temp: DataManager.IsExists("_doramaData", temp: true)));
+        }
     }
 
     public IEnumerator GetLanguagesData(string data = null)
@@ -45,15 +53,18 @@ public class MainLoader
             yield return ParseLanguageData(data);
             yield break;
         }
-        yield return EthernetManager.LanguageRemoteDownload();
-        yield return ParseLanguageData(DataManager.IsExists("_languageData", true) ? DataManager.ReadData("_languageData", true) : DataManager.ReadData("_languageData", false));
+        else
+        {
+            yield return EthernetManager.LanguageRemoteDownload();
+            yield return ParseLanguageData(DataManager.ReadData("_languageData", temp: DataManager.IsExists("_languageData", temp: true)));
+        }
     }
 
     public IEnumerator ParsePostersData(string data)
     {
     #if UNITY_EDITOR
         Debug.Log("PostersData processed");
-    #endif
+#endif
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -62,43 +73,45 @@ public class MainLoader
         for (int row = 1; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(columnSplit);
-            
+
+
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
 
             if (DataBase.Doramas[cellData[0]].IsLoaded)
                 continue;
 
-            string TextureURL = "";
+
+            string textureName = "";
+            string textureURL = "";
 
             for (int cell = 1; cell < cellData.Length; cell++)
             {
-                if (cellData[cell].StartsWith("https:"))
+                if (cellData[cell].StartsWith("https:/"))
                 {
-                    TextureURL = cellData[cell];
+                    textureURL = cellData[cell];
+                    textureName = cellData[0].Replace(": ", "");
                     break;
                 }
             }
 
-            if (string.IsNullOrEmpty(TextureURL))
+            if (textureName == "")
                 continue;
 
-            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(TextureURL))
+            if (EthernetManager.ConnectionOn())
             {
-
-                yield return www.SendWebRequest();
-
-                if (!www.isDone)
-                    yield break;
-
-                Texture2D posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                Sprite sprite = Sprite.Create(
-                    posterTexture, new Rect(0, 0, posterTexture.width, posterTexture.height), new Vector2(.5f, .5f));
-                DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
-                DataBase.Doramas[cellData[0]].IsLoaded = true;
-                yield return null;
+                if (!DataManager.IsExists(cellData[0].Replace(": ", ""), temp: true, image: true) && !DataManager.IsExists(cellData[0].Replace(": ", ""), temp: false, image: true))
+                {
+                    yield return EthernetManager.PostersImageRemoteDownload(textureURL, (byte[] bytes) => { DataManager.SaveImage(textureName, bytes, temp: true); });
+                }
             }
-        }
+            Texture2D image = new(128, 128);
+            image = DataManager.LoadImage(textureName, temp: DataManager.IsExists(cellData[0].Replace(": ", ""), temp: true, image: true));
+            Debug.Log(textureName);
+            Sprite sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector3(.5f, .5f));
+            DataBase.Doramas[cellData[0]].Poster.sprite = sprite;
+            DataBase.Doramas[cellData[0]].IsLoaded = true;
+    }
 
         DataBase.PostersIsLoaded = true;
     }
@@ -192,9 +205,8 @@ public class MainLoader
     {
         yield return GetLanguagesDataLocal();
         yield return GetDoramaDataLocal();
-        callback?.Invoke();
         yield return GetDoramaPostersLocal();
-
+        callback?.Invoke();
     }
 
     public IEnumerator GetDoramaPostersLocal()
@@ -210,13 +222,13 @@ public class MainLoader
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _postersData not loaded");
-                yield break;
         #endif
+            yield break;
             }
         }
         else
         {
-            yield return GetDoramaPosters(DataManager.IsExists("_postersData", true) ? DataManager.ReadData("_postersData", true) : DataManager.ReadData("_postersData", false));
+            yield return GetDoramaPosters(DataManager.ReadData("_postersData", temp: DataManager.IsExists("_postersData", temp: true)));
         }
     }
 
@@ -233,18 +245,19 @@ public class MainLoader
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _doramaData not loaded");
-                yield break;
         #endif
+            yield break;
             }
-        } else
+        } 
+        else
         {
-            yield return GetDoramaData(DataManager.IsExists("_doramaData", true) ? DataManager.ReadData("_doramaData", true) : DataManager.ReadData("_doramaData", false));
+            yield return GetDoramaData(DataManager.ReadData("_doramaData", temp: DataManager.IsExists("_doramaData", temp: true)));
         }
     }
 
     public IEnumerator GetLanguagesDataLocal()
     {
-        if (!DataManager.IsExists("_languageData", false) || EthernetManager._isNeedToUpdate)
+        if (!DataManager.IsExists("_languageData", temp: false) || EthernetManager._isNeedToUpdate)
         {
             if (EthernetManager.ConnectionOn())
             {
@@ -255,12 +268,13 @@ public class MainLoader
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _languageData not loaded");
-                yield break;
         #endif
+            yield break;
             }
-        } else
+        } 
+        else
         {
-            yield return GetLanguagesData(DataManager.IsExists("_languageData", true) ? DataManager.ReadData("_languageData", true) : DataManager.ReadData("_languageData", false));
+            yield return GetLanguagesData(DataManager.ReadData("_languageData", temp: DataManager.IsExists("_languageData", temp: true)));
         }
     }
 }
