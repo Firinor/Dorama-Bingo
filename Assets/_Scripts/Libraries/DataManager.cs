@@ -3,18 +3,15 @@ using System.Collections;
 using System.IO;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public static class DataManager
 {
     public static readonly string DataPath = Application.dataPath;
     public static readonly string TempDataPath = Application.temporaryCachePath;
 
-
-
     public static void UpdateData(string fileName, string data)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.csv", TempDataPath, fileName)))
+        using (StreamWriter sw = new(String.Format("{0}/{1}.tsv", TempDataPath, fileName)))
         {
             sw.WriteLine(data);
         }
@@ -31,13 +28,17 @@ public static class DataManager
         {
             string[] cellData = rowsData[row].Split(MainLoader.columnSplit);
 
-            //if (!DataBase.Doramas.ContainsKey(cellData[0]))
-            //    continue;
+#if !UNITY_EDITOR
+            if (!DataBase.Doramas.ContainsKey(cellData[0]))
+                continue;
 
-            //if (DataBase.Doramas[cellData[0]].IsLoaded)
-            //    continue;
+            if (DataBase.Doramas[cellData[0]].IsLoaded)
+                continue;
+#endif
 
+#if UNITY_EDITOR
             Debug.Log(row);
+#endif
             for (int cell = 1; cell < cellData.Length; cell++)
             {
                 if (cellData[cell].StartsWith("https:"))
@@ -73,7 +74,7 @@ public static class DataManager
 
     public static void WriteData(string fileName, string data, bool temp = true)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.csv", temp ? TempDataPath : DataPath + "/Resources", fileName)))
+        using (StreamWriter sw = new(String.Format("{0}/{1}.tsv", temp ? TempDataPath : DataPath + "/Resources", fileName)))
         {
             sw.WriteLine(data);
         }
@@ -89,7 +90,7 @@ public static class DataManager
         } 
         else
         {
-            using (StreamReader sr = new(String.Format("{0}/{1}.csv", TempDataPath, fileName)))
+            using (StreamReader sr = new(String.Format("{0}/{1}.tsv", TempDataPath, fileName)))
             {
                 return sr.ReadToEnd();
             }
@@ -106,7 +107,7 @@ public static class DataManager
         } 
         else
         {
-            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, fileName, image ? "png" : "csv"));
+            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, fileName, image ? "png" : "tsv"));
         }
     }
 }

@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Linq.Expressions;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.XR;
 
 public class MainLoader
 {
@@ -64,7 +60,7 @@ public class MainLoader
     {
     #if UNITY_EDITOR
         Debug.Log("PostersData processed");
-#endif
+    #endif
         if (string.IsNullOrEmpty(data))
             yield break;
 
@@ -87,7 +83,7 @@ public class MainLoader
 
             for (int cell = 1; cell < cellData.Length; cell++)
             {
-                if (cellData[cell].StartsWith("https:/"))
+                if (cellData[cell].StartsWith("https:"))
                 {
                     textureURL = cellData[cell];
                     textureName = cellData[0].Replace(": ", "");
@@ -95,17 +91,17 @@ public class MainLoader
                 }
             }
 
-            if (textureName == "")
+            if (string.IsNullOrEmpty(textureName))
                 continue;
 
-            if (EthernetManager.ConnectionOn())
+            if (EthernetManager.ConnectionOn)
             {
                 if (!DataManager.IsExists(cellData[0].Replace(": ", ""), temp: true, image: true) && !DataManager.IsExists(cellData[0].Replace(": ", ""), temp: false, image: true))
                 {
                     yield return EthernetManager.PostersImageRemoteDownload(textureURL, (byte[] bytes) => { DataManager.SaveImage(textureName, bytes, temp: true); });
                 }
             }
-            Texture2D image = new(128, 128);
+            Texture2D image = new(0, 0);
             image = DataManager.LoadImage(textureName, temp: DataManager.IsExists(cellData[0].Replace(": ", ""), temp: true, image: true));
             Debug.Log(textureName);
             Sprite sprite = Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector3(.5f, .5f));
@@ -211,20 +207,16 @@ public class MainLoader
 
     public IEnumerator GetDoramaPostersLocal()
     {
-        if (!DataManager.IsExists("_postersData", false) || EthernetManager._isNeedToUpdate)
+        if (EthernetManager._isNeedToUpdate || !DataManager.IsExists("_postersData", false))
         {
-            if (EthernetManager.ConnectionOn())
-            {
-                yield return GetDoramaPosters();
-                yield break;
-            }
-            else
+            if (!EthernetManager.ConnectionOn)
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _postersData not loaded");
         #endif
-            yield break;
             }
+            yield return GetDoramaPosters();
+            yield break;
         }
         else
         {
@@ -234,20 +226,16 @@ public class MainLoader
 
     public IEnumerator GetDoramaDataLocal()
     {
-        if (!DataManager.IsExists("_doramaData", false) || EthernetManager._isNeedToUpdate)
+        if (EthernetManager._isNeedToUpdate || !DataManager.IsExists("_doramaData", false))
         {
-            if (EthernetManager.ConnectionOn())
-            {
-                yield return GetDoramaData();
-                yield break;
-            }
-            else
+            if (!EthernetManager.ConnectionOn)
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _doramaData not loaded");
-        #endif
-            yield break;
+            #endif
             }
+            yield return GetDoramaData();
+            yield break;
         } 
         else
         {
@@ -257,20 +245,16 @@ public class MainLoader
 
     public IEnumerator GetLanguagesDataLocal()
     {
-        if (!DataManager.IsExists("_languageData", temp: false) || EthernetManager._isNeedToUpdate)
+        if (EthernetManager._isNeedToUpdate || !DataManager.IsExists("_languageData", temp: false))
         {
-            if (EthernetManager.ConnectionOn())
-            {
-                yield return GetLanguagesData();
-                yield break;
-            }
-            else
+            if (!EthernetManager.ConnectionOn)
             {
         #if UNITY_EDITOR
                 Debug.Log("Connection problem, _languageData not loaded");
         #endif
-            yield break;
             }
+            yield return GetLanguagesData();
+            yield break;
         } 
         else
         {

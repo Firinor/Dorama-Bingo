@@ -14,6 +14,8 @@ public static class EthernetManager
         "https://docs.google.com/spreadsheets/d/1MP8xPYdW64FKz-T09psy4t61p-u9GB_f/export?format=tsv&gid=1844463073";
     
     public static HttpStatusCode _status;
+    public static bool ConnectionOn => _status == HttpStatusCode.OK;
+
 
     public static bool _isNeedToUpdate = false;
 
@@ -27,6 +29,8 @@ public static class EthernetManager
             yield return webRequest.SendWebRequest();
 
             _status = (HttpStatusCode)webRequest.responseCode;
+        
+            Debug.Log(_status);
         }
     }
 
@@ -46,10 +50,10 @@ public static class EthernetManager
             if (!VersionCompare(DataManager.ReadData(fileName, temp: DataManager.IsExists(fileName, temp: true)), data))
             {
                 if(url.Equals(PostersURL))
-                    yield return DataManager.DownloadImage(data, true);
+                    yield return DataManager.DownloadImage(data, temp: true);
 
-                callback?.Invoke(fileName, data);
                 _isNeedToUpdate = true;
+                callback?.Invoke(fileName, data);
             }
         }
     }
@@ -92,25 +96,27 @@ public static class EthernetManager
         #endif
 
             data = webRequest.downloadHandler.text;
-            DataManager.WriteData("_languageData", data, temp);
         }
+        DataManager.WriteData("_languageData", data, temp);
     }
 
     public static IEnumerator PostersImageRemoteDownload(string TextureURL, Action<byte[]> callback = null)
     {
+        Texture2D posterTexture;
         using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(TextureURL))
         {
+            www.timeout = 5;
 
             yield return www.SendWebRequest();
 
             if (!www.isDone)
                 yield break;
 
-            Texture2D posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
 
-            callback?.Invoke(posterTexture.EncodeToJPG());
-            yield return null;
         }
+        callback?.Invoke(posterTexture.EncodeToJPG());
+
     }
 
     public static IEnumerator PostersRemoteDownload(bool temp = true)
@@ -130,9 +136,9 @@ public static class EthernetManager
         #endif
 
             data = webRequest.downloadHandler.text;
-            DataManager.WriteData("_postersData", data, temp);
-            yield return DataManager.DownloadImage(data, temp);
         }
+        DataManager.WriteData("_postersData", data, temp);
+        yield return DataManager.DownloadImage(data, temp);
     }
 
     public static IEnumerator DoramaRemoteDownload(bool temp = true)
@@ -152,9 +158,8 @@ public static class EthernetManager
         #endif
 
             data = webRequest.downloadHandler.text;
-            DataManager.WriteData("_doramaData", data, temp);
         }
+        DataManager.WriteData("_doramaData", data, temp);
     }
 
-    public static bool ConnectionOn() => _status == HttpStatusCode.OK;
 }
