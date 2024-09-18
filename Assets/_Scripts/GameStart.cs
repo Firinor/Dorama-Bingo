@@ -14,7 +14,7 @@ public class GameStart : MonoBehaviour
     {   
         LoadAll();
         MainLoader loader = new();
-        StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
+        StartCoroutine(loader.GetData(callback: InitializeSceneObjects, updateLoader: new UpdateLoader()));
     }
 
     private void LoadAll()
@@ -27,8 +27,6 @@ public class GameStart : MonoBehaviour
 
     private void InitializeSceneObjects()
     {
-        UpdateLoader updateLoader = new();
-        StartCoroutine(updateLoader.GetUpdate(SceneReload));
         InitializeLanguageFlags();
     }
 

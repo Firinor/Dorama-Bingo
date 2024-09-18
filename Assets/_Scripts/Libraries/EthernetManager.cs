@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Net;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,9 +16,6 @@ public static class EthernetManager
     
     public static HttpStatusCode _status;
     public static bool ConnectionOn => _status == HttpStatusCode.OK;
-
-
-    public static bool _isNeedToUpdate = false;
 
     private static readonly string rowDelimiter = "\t";
     private static readonly string versionDelimiter = ".";
@@ -34,7 +32,7 @@ public static class EthernetManager
         }
     }
 
-    public static IEnumerator UpdateRemoteCheck(string url, string fileName, Action<string, string> callback = null)
+    public static IEnumerator UpdateRemoteCheck(string url, string fileName, Action<string, string> onFinish)
     {
         string data;
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -52,8 +50,8 @@ public static class EthernetManager
                 if(url.Equals(PostersURL))
                     yield return DataManager.DownloadImage(data, temp: true);
 
-                _isNeedToUpdate = true;
-                callback?.Invoke(fileName, data);
+                UpdateLoader._isNeedToUpdate = true;
+                onFinish.Invoke(fileName, data);
             }
         }
     }
@@ -79,86 +77,123 @@ public static class EthernetManager
         }
     }
 
-    public static IEnumerator LanguageRemoteDownload(bool temp = true)
+    public static async Task PostersImageRemoteDownload(string TextureURL, Action<byte[]> callback = null)
+    {
+        Texture2D posterTexture;
+        
+        using var webRequest = UnityWebRequestTexture.GetTexture(TextureURL);
+
+        webRequest.timeout = 5;
+
+        var operation = webRequest.SendWebRequest();
+
+        while(!operation.isDone)
+        {
+            await Task.Yield();
+        }
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+#if UNITY_EDITOR 
+            Debug.Log("Failed to Download Poster");
+#endif
+        }
+
+        posterTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
+        
+        callback?.Invoke(posterTexture.EncodeToJPG());
+    }
+
+    public static async Task LanguageRemoteDownload(bool temp = true)
     {
         string data;
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(LanguagesURL))
+
+        using var webRequest = UnityWebRequest.Get(LanguagesURL);
+
+        webRequest.timeout = 5;
+
+        var operation = webRequest.SendWebRequest();
+
+        while(!operation.isDone)
         {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log("Language Downloading...");
-        #endif
-
-            data = webRequest.downloadHandler.text;
+#endif
+            await Task.Yield();
         }
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+#if UNITY_EDITOR
+            Debug.Log("Failed to download LanguageData");
+#endif
+        }
+
+        data = webRequest.downloadHandler.text;
+
         DataManager.WriteData("_languageData", data, temp);
     }
 
-    public static IEnumerator PostersImageRemoteDownload(string TextureURL, Action<byte[]> callback = null)
-    {
-        Texture2D posterTexture;
-        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(TextureURL))
-        {
-            www.timeout = 5;
-
-            yield return www.SendWebRequest();
-
-            if (!www.isDone)
-                yield break;
-
-            posterTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-
-        }
-        callback?.Invoke(posterTexture.EncodeToJPG());
-
-    }
-
-    public static IEnumerator PostersRemoteDownload(bool temp = true)
+    public static async Task PostersRemoteDownload(bool temp = true)
     {
         string data;
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(PostersURL))
+
+        using var webRequest = UnityWebRequest.Get(PostersURL);
+
+        webRequest.timeout = 5;
+
+        var operation = webRequest.SendWebRequest();
+
+        while(!operation.isDone)
         {
-            webRequest.timeout = 5;
-
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log("Posters Downloading...");
-        #endif
-
-            data = webRequest.downloadHandler.text;
+#endif
+            await Task.Yield();
         }
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+#if UNITY_EDITOR
+            Debug.Log("Failed to download PostersData");
+#endif
+        }
+
+        data = webRequest.downloadHandler.text;
+
         DataManager.WriteData("_postersData", data, temp);
-        yield return DataManager.DownloadImage(data, temp);
+
+        await DataManager.DownloadImage(data, temp);
     }
 
-    public static IEnumerator DoramaRemoteDownload(bool temp = true)
+    public static async Task DoramaRemoteDownload(bool temp = true)
     {
         string data;
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(DoramaDataURL))
+
+        using var webRequest = UnityWebRequest.Get(DoramaDataURL);
+
+        webRequest.timeout = 5;
+
+        var operation = webRequest.SendWebRequest();
+
+        while (!operation.isDone)
         {
-            webRequest.timeout = 5;
 
-            yield return webRequest.SendWebRequest();
-
-            if (!webRequest.isDone)
-                yield break;
-
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             Debug.Log("Dorama Downloading...");
-        #endif
-
-            data = webRequest.downloadHandler.text;
+#endif
+            await Task.Yield();
         }
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+#if UNITY_EDITOR
+            Debug.Log("Failed to downnload DoramaData");
+#endif
+        }
+
+        data = webRequest.downloadHandler.text;
+
         DataManager.WriteData("_doramaData", data, temp);
     }
 

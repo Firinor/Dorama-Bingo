@@ -1,7 +1,8 @@
 using System;
-using System.Collections;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class DataManager
@@ -11,22 +12,25 @@ public static class DataManager
 
     public static void UpdateData(string fileName, string data)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.tsv", TempDataPath, fileName)))
+        using (StreamWriter sw = new(String.Format("{0}/{1}.txt", TempDataPath, fileName)))
         {
             sw.WriteLine(data);
         }
     }
 
-    public static IEnumerator DownloadImage(string data, bool temp)
+    public static async Task DownloadImage(string data, bool temp)
     {
         if (string.IsNullOrEmpty(data))
-            yield break;
+            return;
 
         StringBuilder newData = new StringBuilder();
         string[] rowsData = data.Split(MainLoader.lineSplit);
         for(int row = 1; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(MainLoader.columnSplit);
+
+            Regex regex = new(@"\W", RegexOptions.Compiled);
+
 
 #if !UNITY_EDITOR
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
@@ -43,7 +47,9 @@ public static class DataManager
             {
                 if (cellData[cell].StartsWith("https:"))
                 {
-                    yield return EthernetManager.PostersImageRemoteDownload(cellData[cell], (byte[] bytes) => { DataManager.SaveImage(cellData[0], bytes, temp); });
+                    string textureNameRaw = cellData[0];
+                    string textureName = regex.Replace(textureNameRaw, "");
+                    await EthernetManager.PostersImageRemoteDownload(cellData[cell], (byte[] bytes) => { DataManager.SaveImage(textureName, bytes, temp); });
                     break;
                 }
             }
@@ -74,7 +80,7 @@ public static class DataManager
 
     public static void WriteData(string fileName, string data, bool temp = true)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.tsv", temp ? TempDataPath : DataPath + "/Resources", fileName)))
+        using (StreamWriter sw = new(String.Format("{0}/{1}.txt", temp ? TempDataPath : DataPath + "/Resources", fileName)))
         {
             sw.WriteLine(data);
         }
@@ -90,7 +96,7 @@ public static class DataManager
         } 
         else
         {
-            using (StreamReader sr = new(String.Format("{0}/{1}.tsv", TempDataPath, fileName)))
+            using (StreamReader sr = new(String.Format("{0}/{1}.txt", TempDataPath, fileName)))
             {
                 return sr.ReadToEnd();
             }
@@ -107,7 +113,7 @@ public static class DataManager
         } 
         else
         {
-            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, fileName, image ? "png" : "tsv"));
+            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, fileName, image ? "png" : "txt"));
         }
     }
 }

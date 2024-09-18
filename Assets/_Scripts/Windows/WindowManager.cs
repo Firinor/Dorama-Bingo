@@ -14,8 +14,8 @@ public class WindowManager : MonoBehaviour
     public void NewCardWindowVisible(bool hide)
     {
             NewCardWindow.alpha = hide ? 0f : 1f;
-            NewCardWindow.blocksRaycasts = hide;
-            NewCardWindow.interactable = hide;
+            NewCardWindow.blocksRaycasts = !hide;
+            NewCardWindow.interactable = !hide;
     }
 
     public void ToMainWindow()
