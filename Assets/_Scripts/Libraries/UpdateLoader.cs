@@ -5,12 +5,7 @@ public class UpdateLoader
 {
     public static bool _isNeedToUpdate;
 
-    public IEnumerator SetUpdate()
-    {
-        yield return UpdateCheck();
-    }
-
-    private IEnumerator UpdateCheck()
+    public IEnumerator UpdateCheck()
     {
         if (!EthernetManager.ConnectionOn)
             yield break;

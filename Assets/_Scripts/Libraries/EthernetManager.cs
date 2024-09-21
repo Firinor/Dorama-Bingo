@@ -24,6 +24,8 @@ public static class EthernetManager
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(DoramaDataURL))
         {
+            webRequest.timeout = 5;
+
             yield return webRequest.SendWebRequest();
 
             _status = (HttpStatusCode)webRequest.responseCode;
@@ -63,7 +65,6 @@ public static class EthernetManager
             rowDestinationVersion = destinationRows[0]?.Split(rowDelimiter)[0];
             var sourceRows = source.Split(Environment.NewLine);
             rowSourceVersion = sourceRows[0]?.Split(rowDelimiter)[0];
-            
         }
         catch (IndexOutOfRangeException e)
         {
@@ -129,7 +130,7 @@ public static class EthernetManager
         }
 
         data = webRequest.downloadHandler.text;
-            callback?.Invoke(data);
+        callback?.Invoke(data);
     }
 
     public static async Task PostersRemoteDownload(Action<string> callback = null)
@@ -192,5 +193,4 @@ public static class EthernetManager
         data = webRequest.downloadHandler.text;
         callback?.Invoke(data);
     }
-
 }

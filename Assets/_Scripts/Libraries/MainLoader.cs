@@ -23,7 +23,7 @@ public class MainLoader
         yield return EthernetManager.ConnectionEstablish();
 
         if (updateLoader != null)
-            yield return updateLoader.SetUpdate();
+            yield return updateLoader.UpdateCheck();
 
         yield return ParseLocalData();
         callback?.Invoke();
