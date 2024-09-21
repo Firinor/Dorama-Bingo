@@ -45,12 +45,6 @@ public class CreateNewBingoCard : MonoBehaviour
         RandomDorama();
     }
 
-    public void OnEnable()
-    {
-        if(!DataBase.PostersIsLoaded)
-            StartCoroutine(MainLoader.GetPosters());
-    }
-
     public void OnDoramaPick(string newPickedDorama)
     {
         if (newPickedDorama == randomDorama)

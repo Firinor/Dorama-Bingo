@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,12 +11,10 @@ public class GameStart : MonoBehaviour
     [SerializeField] private CreateNewBingoCard CreateNewBingoCard;
 
     void Awake()
-    {
+    {   
         LoadAll();
-
         MainLoader loader = new();
-
-        StartCoroutine(loader.GetData(callback: InitializeSceneObjects));
+        StartCoroutine(loader.GetData(callback: InitializeSceneObjects, updateLoader: new UpdateLoader()));
     }
 
     private void LoadAll()
@@ -55,9 +52,14 @@ public class GameStart : MonoBehaviour
         }
     }
 
-    public void Reload()
+    public void DataReload()
     {
         PlayerPrefs.DeleteAll();
+        SceneReload();
+    }
+
+    public void SceneReload()
+    {
         DataBase.Doramas = new();
         DataBase.DoramaIsReady = false;
         DataBase.PostersIsLoaded = false;
