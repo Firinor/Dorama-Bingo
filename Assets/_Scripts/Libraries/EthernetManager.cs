@@ -45,11 +45,8 @@ public static class EthernetManager
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            if (!VersionCompare(DataManager.ReadData(fileName, temp: DataManager.IsExists(fileName, temp: true)), data))
+            if (!VersionCompare(DataManager.ReadData(fileName, resources: !DataManager.IsExists(fileName, resources: false)), data))
             {
-                if(url.Equals(PostersURL))
-                    yield return DataManager.DownloadImage(data, temp: true);
-
                 UpdateLoader._isNeedToUpdate = true;
                 onFinish.Invoke(fileName, data);
             }
@@ -58,15 +55,15 @@ public static class EthernetManager
 
     private static bool VersionCompare(string source, string destination)
     {
+        string rowDestinationVersion;
+        string rowSourceVersion;
         try
         {
             var destinationRows = destination.Split(Environment.NewLine);
-            var rowDestinationVersion = destinationRows[0]?.Split(rowDelimiter)[0];
-            var destinationVersion = int.Parse(rowDestinationVersion?.Replace(versionDelimiter, ""));
+            rowDestinationVersion = destinationRows[0]?.Split(rowDelimiter)[0];
             var sourceRows = source.Split(Environment.NewLine);
-            var rowSourceVersion = sourceRows[0]?.Split(rowDelimiter)[0];
-            var sourceVersion = int.Parse(rowSourceVersion?.Replace(versionDelimiter, ""));
-            return destinationVersion.Equals(sourceVersion);
+            rowSourceVersion = sourceRows[0]?.Split(rowDelimiter)[0];
+            
         }
         catch (IndexOutOfRangeException e)
         {
@@ -75,6 +72,9 @@ public static class EthernetManager
         #endif
             throw;
         }
+        var destinationVersion = int.Parse(rowDestinationVersion?.Replace(versionDelimiter, ""));
+        var sourceVersion = int.Parse(rowSourceVersion?.Replace(versionDelimiter, ""));
+        return destinationVersion.Equals(sourceVersion);
     }
 
     public static async Task PostersImageRemoteDownload(string TextureURL, Action<byte[]> callback = null)
@@ -88,23 +88,21 @@ public static class EthernetManager
         var operation = webRequest.SendWebRequest();
 
         while(!operation.isDone)
-        {
             await Task.Yield();
-        }
 
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
 #if UNITY_EDITOR 
             Debug.Log("Failed to Download Poster");
 #endif
+            return;
         }
-
-        posterTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
         
+        posterTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
         callback?.Invoke(posterTexture.EncodeToJPG());
     }
 
-    public static async Task LanguageRemoteDownload(bool temp = true)
+    public static async Task LanguageRemoteDownload(Action<string> callback = null)
     {
         string data;
 
@@ -127,14 +125,14 @@ public static class EthernetManager
 #if UNITY_EDITOR
             Debug.Log("Failed to download LanguageData");
 #endif
+            return;
         }
 
         data = webRequest.downloadHandler.text;
-
-        DataManager.WriteData("_languageData", data, temp);
+            callback?.Invoke(data);
     }
 
-    public static async Task PostersRemoteDownload(bool temp = true)
+    public static async Task PostersRemoteDownload(Action<string> callback = null)
     {
         string data;
 
@@ -157,16 +155,14 @@ public static class EthernetManager
 #if UNITY_EDITOR
             Debug.Log("Failed to download PostersData");
 #endif
+            return;
         }
 
         data = webRequest.downloadHandler.text;
-
-        DataManager.WriteData("_postersData", data, temp);
-
-        await DataManager.DownloadImage(data, temp);
+        callback?.Invoke(data);
     }
 
-    public static async Task DoramaRemoteDownload(bool temp = true)
+    public static async Task DoramaRemoteDownload(Action<string> callback = null)
     {
         string data;
 
@@ -190,11 +186,11 @@ public static class EthernetManager
 #if UNITY_EDITOR
             Debug.Log("Failed to downnload DoramaData");
 #endif
+            return;
         }
 
         data = webRequest.downloadHandler.text;
-
-        DataManager.WriteData("_doramaData", data, temp);
+        callback?.Invoke(data);
     }
 
 }

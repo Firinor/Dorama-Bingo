@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,29 +9,19 @@ public static class DataManager
 {
     public static readonly string DataPath = Application.dataPath;
     public static readonly string TempDataPath = Application.temporaryCachePath;
+    static readonly Regex regex = new(@"\W", RegexOptions.Compiled);
 
-    public static void UpdateData(string fileName, string data)
+    public static async Task DownloadImage(string data, bool resources)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.txt", TempDataPath, fileName)))
-        {
-            sw.WriteLine(data);
-        }
-    }
-
-    public static async Task DownloadImage(string data, bool temp)
-    {
+        List<Task> tasks = new();
+        
         if (string.IsNullOrEmpty(data))
             return;
 
-        StringBuilder newData = new StringBuilder();
         string[] rowsData = data.Split(MainLoader.lineSplit);
         for(int row = 1; row < rowsData.Length; row++)
         {
             string[] cellData = rowsData[row].Split(MainLoader.columnSplit);
-
-            Regex regex = new(@"\W", RegexOptions.Compiled);
-
-
 #if !UNITY_EDITOR
             if (!DataBase.Doramas.ContainsKey(cellData[0]))
                 continue;
@@ -39,7 +29,6 @@ public static class DataManager
             if (DataBase.Doramas[cellData[0]].IsLoaded)
                 continue;
 #endif
-
 #if UNITY_EDITOR
             Debug.Log(row);
 #endif
@@ -49,46 +38,50 @@ public static class DataManager
                 {
                     string textureNameRaw = cellData[0];
                     string textureName = regex.Replace(textureNameRaw, "");
-                    await EthernetManager.PostersImageRemoteDownload(cellData[cell], (byte[] bytes) => { DataManager.SaveImage(textureName, bytes, temp); });
+                    var task = EthernetManager.PostersImageRemoteDownload(cellData[cell], (byte[] bytes) => { SaveImage(textureName, imageBytes: bytes, resources: resources); });
+                    tasks.Add(task);
                     break;
                 }
             }
         }
+        if(tasks.Count > 0)
+        {
+            await Task.WhenAll(tasks);
+        }
     }
 
-    public static void SaveImage(string fileName, byte[] imageBytes, bool temp = true)
+    public static void SaveImage(string fileName, byte[] imageBytes, bool resources = false)
     {
-        File.WriteAllBytes(String.Format("{0}/{1}.png", temp ? TempDataPath : DataPath + "/Resources", fileName.Replace(": ", "")), imageBytes);
+        File.WriteAllBytes(String.Format("{0}/{1}.png", resources ? DataPath + "/Resources" : TempDataPath, regex.Replace(fileName, "")), imageBytes);
     }
 
-    public static Texture2D LoadImage(string fileName, bool temp = true)
+    public static Texture2D LoadImage(string fileName, bool resources = false)
     {
-        if (!temp)
+        if (resources)
         {
             var res = (Texture2D)Resources.Load($"{fileName}");
             return res;
         }
         else
         {
-            var bytes = File.ReadAllBytes(String.Format("{0}/{1}.png", TempDataPath, fileName.Replace(": ", "")));
-            Texture2D texture = new Texture2D(128, 128);
+            var bytes = File.ReadAllBytes(String.Format("{0}/{1}.png", TempDataPath, regex.Replace(fileName, "")));
+            Texture2D texture = new(0, 0);
             texture.LoadImage(bytes);
             return texture;
-            
         }
     }
 
-    public static void WriteData(string fileName, string data, bool temp = true)
+    public static async Task WriteData(string fileName, string data, bool resources = false)
     {
-        using (StreamWriter sw = new(String.Format("{0}/{1}.txt", temp ? TempDataPath : DataPath + "/Resources", fileName)))
+        using (StreamWriter sw = new(String.Format("{0}/{1}.txt", resources ? DataPath + "/Resources" : TempDataPath, fileName)))
         {
-            sw.WriteLine(data);
+            await sw.WriteLineAsync(data);
         }
     }
 
-    public static string ReadData(string fileName, bool temp)
+    public static string ReadData(string fileName, bool resources)
     {
-        if (!temp)
+        if (resources)
         {
             var res = (TextAsset)Resources.Load($"{fileName}");
             
@@ -103,17 +96,16 @@ public static class DataManager
         }
     }
 
-    public static bool IsExists(string fileName, bool temp, bool image = false)
+    public static bool IsExists(string fileName, bool resources, bool image = false)
     {
-
-        if (!temp)
+        if (resources)
         {
             var res = Resources.Load($"{fileName}");
             return res != null;
         } 
         else
         {
-            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, fileName, image ? "png" : "txt"));
+            return File.Exists(String.Format("{0}/{1}.{2}", TempDataPath, image ? fileName : regex.Replace(fileName, ""), image ? "png" : "txt"));
         }
     }
 }

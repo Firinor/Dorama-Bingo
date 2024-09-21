@@ -1,13 +1,12 @@
 using UnityEditor;
-using UnityEngine;
 
 public class BuildLoader
 {
     [MenuItem("BuildLoader/Load Data")]
     private static async void DownloadFiles()
     {
-        await EthernetManager.DoramaRemoteDownload(false);
-        await EthernetManager.LanguageRemoteDownload(false);
-        await EthernetManager.PostersRemoteDownload(false);
+        await EthernetManager.DoramaRemoteDownload(EthernetDataManager.SaveDoramaData);
+        await EthernetManager.LanguageRemoteDownload(EthernetDataManager.SaveLanguageData);
+        await EthernetManager.PostersRemoteDownload(EthernetDataManager.SavePostersData);
     }
 }

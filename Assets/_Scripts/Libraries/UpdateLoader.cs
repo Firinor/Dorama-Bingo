@@ -5,20 +5,20 @@ public class UpdateLoader
 {
     public static bool _isNeedToUpdate;
 
-    public IEnumerator GetUpdate()
+    public IEnumerator SetUpdate()
     {
         yield return UpdateCheck();
     }
 
     private IEnumerator UpdateCheck()
     {
-        if (EthernetManager.ConnectionOn)
-        {
-            yield return EthernetManager.UpdateRemoteCheck(EthernetManager.DoramaDataURL, "_doramaData", UpdateData);
-            yield return EthernetManager.UpdateRemoteCheck(EthernetManager.LanguagesURL, "_languageData", UpdateData);
-            yield return EthernetManager.UpdateRemoteCheck(EthernetManager.PostersURL, "_postersData", UpdateData);
-            UpdateComplete();
-        }
+        if (!EthernetManager.ConnectionOn)
+            yield break;
+
+        yield return EthernetManager.UpdateRemoteCheck(EthernetManager.DoramaDataURL, "_doramaData", UpdateData);
+        yield return EthernetManager.UpdateRemoteCheck(EthernetManager.LanguagesURL, "_languageData", UpdateData);
+        yield return EthernetManager.UpdateRemoteCheck(EthernetManager.PostersURL, "_postersData", UpdateData);
+        UpdateComplete();
     }
 
     private void UpdateData(string fileName,string data)
