@@ -99,7 +99,7 @@ public static class EthernetManager
         }
         
         posterTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
-        callback?.Invoke(posterTexture.EncodeToJPG());
+        callback?.Invoke(posterTexture.EncodeToPNG());
     }
 
     public static async Task LanguageRemoteDownload(Action<string> callback = null)
