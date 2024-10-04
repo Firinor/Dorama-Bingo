@@ -8,7 +8,7 @@ public class SaveLoadWindow : MonoBehaviour
     public bool IsSavingMode;
 
     [SerializeField] private LoadButtonPrefab[] loadButtons;
-    [SerializeField] private SaveLoadManager saveLoadManager;
+    [SerializeField] private SaveScreenManager saveLoadManager;
     [SerializeField] private WindowManager windowManager;
     private LoadBingoCardData[] playerSaves;
 
