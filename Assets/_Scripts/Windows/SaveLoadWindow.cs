@@ -3,26 +3,50 @@ using UnityEngine;
 
 public class SaveLoadWindow : MonoBehaviour
 {
+    private static string TexturePath;
+
     public bool IsSavingMode;
 
     [SerializeField] private LoadButtonPrefab[] loadButtons;
+    [SerializeField] private SaveLoadManager saveLoadManager;
+    [SerializeField] private WindowManager windowManager;
+    private LoadBingoCardData[] playerSaves;
 
     private void Awake()
     {
-        int i = 0;
-        LoadBingoCardData[] playerSaves = PlayerData.SavedBingoCards;
+        TexturePath = Application.persistentDataPath;
+        Initialize();
+    }
 
-        if (playerSaves == null)
+    private void Initialize()
+    {
+        int i = 0;
+
+        if (PlayerData.SavedBingoCards == null)
+        {
             playerSaves = new LoadBingoCardData[8] { null, null, null, null, null, null, null, null };
+            PlayerData.SavedBingoCards = playerSaves;
+        }
+        else
+        {
+            playerSaves = PlayerData.SavedBingoCards;
+        }
 
         foreach (LoadButtonPrefab button in loadButtons)
         {
-            int index = i;//new instance
+            int index = i;
             button.Initialize(playerSaves[i]);
             button.Main.onClick.AddListener(() => OnButtonPressed(index));
             button.DeleteButton.onClick.AddListener(() => OnDeletePressed(index));
             i++;
         }
+    }
+
+    private void UpdateBingoCard(int index) 
+    {
+        loadButtons[index].Initialize(playerSaves[index]);
+        loadButtons[index].Main.onClick.AddListener(() => OnButtonPressed(index));
+        loadButtons[index].DeleteButton.onClick.AddListener(() => OnDeletePressed(index));
     }
 
     public void OpenWindow(bool savingMode)
@@ -41,36 +65,33 @@ public class SaveLoadWindow : MonoBehaviour
 
     private void LoadBingoCard(int index)
     {
-        throw new NotImplementedException();
+        if (!String.IsNullOrEmpty(playerSaves[index]?.DoramaName))
+        {
+            PlayerData.CurrentBingoCard = playerSaves[index].BingoCard;
+            windowManager.LoadGameplayWindow(PlayerData.CurrentBingoCard);
+        }
     }
 
     private void SaveBingoCard(int index)
     {
         BingoCard currentCard = PlayerData.CurrentBingoCard;
-        LoadBingoCardData savedCard = PlayerData.SavedBingoCards[index];
-
         LoadBingoCardData newSavedCard = new();
-
         newSavedCard.BingoCard = currentCard;
         newSavedCard.DoramaName = currentCard.Dorama;
         newSavedCard.Date = DateTime.Now;
-        newSavedCard.ScreenPath = Application.persistentDataPath + $"/savescrn{index}.jpg";
-        SaveCurrentCardScreen(newSavedCard.ScreenPath);
+        newSavedCard.ScreenPath = TexturePath + $"/savescrn{index}.jpg";
+        playerSaves.SetValue(newSavedCard, index);
+        new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
+        saveLoadManager.SaveCurrentCardScreen(newSavedCard.ScreenPath, () => { UpdateBingoCard(index);});
 
-        new SaveLoadSystem().Save(PlayerData.SavedBingoCards, SaveKey.SavedCards);
-    }
-
-    private void SaveCurrentCardScreen(string screenPath)
-    {
-        Texture2D texture = new Texture2D(Screen.width, Screen.height);
-        texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        texture.Apply();
-
-        new SaveLoadSystem().SaveTexture(texture, screenPath);
+        windowManager.OpenGameplayWindow();
     }
 
     public void OnDeletePressed(int index)
     {
-        //playerSaves[index]
+        playerSaves[index] = null;
+        new SaveLoadSystem().DeleteTexture(TexturePath + $"/savescrn{index}.jpg");
+        new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
+        UpdateBingoCard(index);
     }
 }

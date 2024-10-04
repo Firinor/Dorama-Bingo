@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,21 +14,28 @@ public class LoadButtonPrefab : MonoBehaviour
 
     public void Initialize(LoadBingoCardData data = null)
     {
-        if (data == null)
+        if (data == null || string.IsNullOrEmpty(data.DoramaName))
         {
-            gameObject.SetActive(false);
-            return;
+            doramaName.text = "Empty card";
+            bingoCardScreen.sprite = null;
+            dateText.text = string.Empty;
         }
-
-        doramaName.text = data.DoramaName;
-        bingoCardScreen.sprite = GetSprite(data.ScreenPath);
-        dateText.text = data.Date.ToString(format: "YY-MM-dd HH:G");
+        else
+        {
+            doramaName.text = data.DoramaName;
+            bingoCardScreen.sprite = GetSprite(data.ScreenPath);
+            dateText.text = data.Date.ToString(format: "YY-MM-dd HH:G");
+        }
     }
 
     private Sprite GetSprite(string texturePath)
     {
-        Texture2D texture = new SaveLoadSystem().LoadTexture(texturePath);
-
+        SaveLoadSystem saveLoadSystem = new SaveLoadSystem();
+        Texture2D texture = saveLoadSystem.LoadTexture(texturePath);
+        
+        if (texture == null)
+            return null;
+        
         Rect rect = new Rect(0,0, texture.width, texture.height);
         Sprite result = Sprite.Create(texture, rect, new Vector2(.5f, .5f));
         return result;

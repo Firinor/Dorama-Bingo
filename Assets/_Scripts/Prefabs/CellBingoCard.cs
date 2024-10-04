@@ -21,7 +21,7 @@ public class CellBingoCard : MonoBehaviour
             Destroy(translator);
         doramaTag.text = cell.Tag;
         doramaTag.gameObject.AddComponent<TranslatorTextElement>();
-
+        
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => action.Invoke(this));
 
@@ -36,7 +36,7 @@ public class CellBingoCard : MonoBehaviour
 
     public void CorrectPressed()
     {
-        BackgroundImage.color = Color.white;
+        BackgroundImage.color = Color.green;
         PressedImage.enabled = true;
     }
 

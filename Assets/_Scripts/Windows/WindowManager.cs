@@ -7,15 +7,11 @@ public class WindowManager : MonoBehaviour
     [SerializeField] private SaveLoadWindow LoadWindow;
     [SerializeField] private GameObject GameplayWindow;
 
-    private int i = 1;
-
-    private BingoCard bingoCard;
-
     public void NewCardWindowVisible(bool hide)
     {
-            NewCardWindow.alpha = hide ? 0f : 1f;
-            NewCardWindow.blocksRaycasts = !hide;
-            NewCardWindow.interactable = !hide;
+        NewCardWindow.alpha = hide ? 0f : 1f;
+        NewCardWindow.blocksRaycasts = !hide;
+        NewCardWindow.interactable = !hide;
     }
 
     public void ToMainWindow()
@@ -45,10 +41,19 @@ public class WindowManager : MonoBehaviour
     }
 
     public void OpenGameplayWindow()
+    { 
+        NewCardWindowVisible(true);
+        LoadWindow.gameObject.SetActive(false);
+        MainWindow.SetActive(false);
+        GameplayWindow.SetActive(true);
+    }
+
+    public void LoadGameplayWindow(BingoCard bingoCard)
     {
         NewCardWindowVisible(true);
         LoadWindow.gameObject.SetActive(false);
         MainWindow.SetActive(false);
+        GameplayWindow.GetComponent<GameplayWindow>().bingoCard = bingoCard;
         GameplayWindow.SetActive(true);
     }
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.IO;
+using UnityEngine;
 
 public enum SaveKey
 {
@@ -13,15 +15,29 @@ public class SaveLoadSystem
     {
         PlayerPrefs.SetString(key.ToString(), data);
     }
+
     public void Save<T>(T data, SaveKey key)
     {
-        string jsonData = JsonUtility.ToJson(data);
+        string jsonData = JsonUtility.ToJson(data, true);
         PlayerPrefs.SetString(key.ToString(), jsonData);
     }
+
+    public void Save<T>(T[] data, SaveKey key)
+    {
+        Wrapper<T> wrapper = new Wrapper<T>();
+        wrapper.Items = data;
+        string jsonData = JsonUtility.ToJson(wrapper, true);
+        PlayerPrefs.SetString(key.ToString(), jsonData);
+    }
+
     public void SaveTexture(Texture2D texture, string path)
     {
         byte[] bytes = texture.EncodeToJPG();
-        System.IO.File.WriteAllBytes(path, bytes);
+
+        using (FileStream fs = File.Create(path))
+        {
+            fs.Write(bytes, 0, bytes.Length);
+        }
     }
 
     public string Load(SaveKey key)
@@ -31,6 +47,7 @@ public class SaveLoadSystem
 
         return PlayerPrefs.GetString(key.ToString());
     }
+
     public T Load<T>(SaveKey key)
     {
         if(!PlayerPrefs.HasKey(key.ToString()))
@@ -40,17 +57,53 @@ public class SaveLoadSystem
 
         return JsonUtility.FromJson<T>(jsonData);
     }
+
+    public T[] LoadArray<T>(SaveKey key)
+    {
+        if (!PlayerPrefs.HasKey(key.ToString()))
+            return default;
+
+        string jsonData = PlayerPrefs.GetString(key.ToString());
+
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(jsonData);
+        return wrapper.Items;
+    }
+
     public Texture2D LoadTexture(string path)
     {
         if(!System.IO.File.Exists(path))
             return null;
 
-        byte[] bytes = System.IO.File.ReadAllBytes(path);
-
-        Texture2D texture2D = new(0, 0);//Size will be updated when loading data
+        byte[] bytes;
+        using (FileStream fs = File.OpenRead(path))
+        {
+            int size = (int)fs.Length;
+            bytes = new byte[size];
+            int totalByte = 0;
+            while(size > 0)
+            {
+                int read = fs.Read(bytes, totalByte, size);
+                size -= read;
+                totalByte += read;
+            }
+        }
+        Texture2D texture2D = new(0, 0);
         texture2D.LoadImage(bytes);
 
         return texture2D;
+    }
 
+    public void DeleteTexture(string path)
+    {
+        if (!System.IO.File.Exists(path))
+            return;
+
+        System.IO.File.Delete(path);
+    }
+    
+    [Serializable]
+    private class Wrapper<T>
+    {
+        public T[] Items;
     }
 }
