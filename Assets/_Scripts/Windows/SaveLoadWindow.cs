@@ -10,6 +10,8 @@ public class SaveLoadWindow : MonoBehaviour
     [SerializeField] private LoadButtonPrefab[] loadButtons;
     [SerializeField] private SaveScreenManager saveLoadManager;
     [SerializeField] private WindowManager windowManager;
+    [SerializeField] private RectTransform objectToScreen;
+
     private LoadBingoCardData[] playerSaves;
 
     private void Awake()
@@ -35,18 +37,23 @@ public class SaveLoadWindow : MonoBehaviour
         foreach (LoadButtonPrefab button in loadButtons)
         {
             int index = i;
-            button.Initialize(playerSaves[i]);
-            button.Main.onClick.AddListener(() => OnButtonPressed(index));
-            button.DeleteButton.onClick.AddListener(() => OnDeletePressed(index));
+            ButtonInitialize(button, index);
             i++;
         }
     }
 
+    private void ButtonInitialize(LoadButtonPrefab loadButtonPrefab, int index)
+    {
+        loadButtonPrefab.Main.onClick.RemoveAllListeners();
+        loadButtonPrefab.DeleteButton.onClick.RemoveAllListeners();
+        loadButtonPrefab.Initialize(playerSaves[index]);
+        loadButtonPrefab.Main.onClick.AddListener(() => OnButtonPressed(index));
+        loadButtonPrefab.DeleteButton.onClick.AddListener(() => OnDeletePressed(index));
+    }
+
     private void UpdateBingoCard(int index) 
     {
-        loadButtons[index].Initialize(playerSaves[index]);
-        loadButtons[index].Main.onClick.AddListener(() => OnButtonPressed(index));
-        loadButtons[index].DeleteButton.onClick.AddListener(() => OnDeletePressed(index));
+        ButtonInitialize(loadButtons[index], index);
     }
 
     public void OpenWindow(bool savingMode)
@@ -67,23 +74,30 @@ public class SaveLoadWindow : MonoBehaviour
     {
         if (!String.IsNullOrEmpty(playerSaves[index]?.DoramaName))
         {
-            PlayerData.CurrentBingoCard = playerSaves[index].BingoCard;
-            windowManager.LoadGameplayWindow(PlayerData.CurrentBingoCard);
+            //PlayerData.CurrentBingoCard = playerSaves[index].BingoCard;
+            PlayerData.CurrentBingoCard = new BingoCard(playerSaves[index].BingoCard);
+            foreach(var bingoCell in playerSaves[index].BingoCard.Cells)
+            {
+                Debug.Log(bingoCell.IsNeutral);
+            }
+            windowManager.OpenGameplayWindow();
         }
     }
 
     private void SaveBingoCard(int index)
     {
-        BingoCard currentCard = PlayerData.CurrentBingoCard;
+        BingoCard currentCard = new BingoCard(PlayerData.CurrentBingoCard);
         LoadBingoCardData newSavedCard = new();
         newSavedCard.BingoCard = currentCard;
         newSavedCard.DoramaName = currentCard.Dorama;
-        newSavedCard.Date = DateTime.Now;
+        newSavedCard.Date = DateTime.Now.Ticks;
         newSavedCard.ScreenPath = TexturePath + $"/savescrn{index}.jpg";
         playerSaves.SetValue(newSavedCard, index);
         new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
-        saveLoadManager.SaveCurrentCardScreen(newSavedCard.ScreenPath, () => { UpdateBingoCard(index);});
+        saveLoadManager.SaveCurrentCardScreen(newSavedCard.ScreenPath, objectToScreen, () => { UpdateBingoCard(index);});
 
+        PlayerData.CurrentBingoCard = new BingoCard(currentCard);
+        new SaveLoadSystem().Save(PlayerData.CurrentBingoCard, SaveKey.CurrentCard);
         windowManager.OpenGameplayWindow();
     }
 

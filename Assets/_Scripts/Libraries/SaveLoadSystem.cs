@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEngine;
 
+
 public enum SaveKey
 {
     CurrentCard,
@@ -14,20 +15,24 @@ public class SaveLoadSystem
     public void Save(string data, SaveKey key)
     {
         PlayerPrefs.SetString(key.ToString(), data);
+        PlayerPrefs.Save();
     }
 
     public void Save<T>(T data, SaveKey key)
     {
         string jsonData = JsonUtility.ToJson(data, true);
         PlayerPrefs.SetString(key.ToString(), jsonData);
+        PlayerPrefs.Save();
     }
 
     public void Save<T>(T[] data, SaveKey key)
     {
-        Wrapper<T> wrapper = new Wrapper<T>();
+        Wrapper<T> wrapper = new();
         wrapper.Items = data;
         string jsonData = JsonUtility.ToJson(wrapper, true);
+        PlayerPrefs.DeleteKey(key.ToString());
         PlayerPrefs.SetString(key.ToString(), jsonData);
+        PlayerPrefs.Save();
     }
 
     public void SaveTexture(Texture2D texture, string path)
@@ -77,15 +82,8 @@ public class SaveLoadSystem
         byte[] bytes;
         using (FileStream fs = File.OpenRead(path))
         {
-            int size = (int)fs.Length;
-            bytes = new byte[size];
-            int totalByte = 0;
-            while(size > 0)
-            {
-                int read = fs.Read(bytes, totalByte, size);
-                size -= read;
-                totalByte += read;
-            }
+            bytes = new byte[fs.Length];
+            fs.Read(bytes, 0, bytes.Length);
         }
         Texture2D texture2D = new(0, 0);
         texture2D.LoadImage(bytes);

@@ -19,6 +19,7 @@ public class CellBingoCard : MonoBehaviour
 
         if (doramaTag.TryGetComponent<TranslatorTextElement>(out var translator))
             Destroy(translator);
+
         doramaTag.text = cell.Tag;
         doramaTag.gameObject.AddComponent<TranslatorTextElement>();
         

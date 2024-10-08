@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +24,8 @@ public class LoadButtonPrefab : MonoBehaviour
         {
             doramaName.text = data.DoramaName;
             bingoCardScreen.sprite = GetSprite(data.ScreenPath);
-            dateText.text = data.Date.ToString(format: "YY-MM-dd HH:G");
+            DateTime dateTime = new(data.Date);
+            dateText.text = dateTime.ToString(format: "yyyy-MM-dd HH:mm");
         }
     }
 

@@ -12,6 +12,18 @@ public class BingoCard
     public int Hearts = 5;
     public int Scores;
 
+    public BingoCard() { }
+
+    public BingoCard(BingoCard card)
+    {
+        this.Dorama = card.Dorama;
+        this.Size = card.Size;
+        BingoCell[] cells = (BingoCell[])card.Cells.Clone();
+        this.Cells = cells;
+        this.Hearts = card.Hearts;
+        this.Scores = card.Scores;
+    }
+
     public List<BingoCell> GetActiveCells()
     {
         List<BingoCell> result = new();

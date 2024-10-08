@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 public class GameplayWindow : MonoBehaviour
 {
     public TextMeshProUGUI DoramaName;
-    [NonSerialized]
+    [SerializeField]
     public BingoCard bingoCard;
 
     public GridLayoutGroup CellParent;
@@ -40,22 +41,35 @@ public class GameplayWindow : MonoBehaviour
         CreateBingoCard();
     }
 
+    public void SaveBingoCard() // When user press "ReturnButton", we saves the current card into PlayerData.CurrentBingoCard
+    {
+        PlayerData.CurrentBingoCard = bingoCard;
+        new SaveLoadSystem().Save(bingoCard, SaveKey.CurrentCard);
+    }
+
+    public void ResetCells()
+    {
+        PlayerData.CurrentBingoCard.Cells = null;
+    }
+
     public void CreateBingoCard()
     {
         bool isNew = false;
-
-        if (bingoCard != PlayerData.CurrentBingoCard)
+        Debug.Log(bingoCard.GetHashCode() + "; " + PlayerData.CurrentBingoCard.GetHashCode());
+        if ((bingoCard.Equals(PlayerData.CurrentBingoCard)))
         {
-            bingoCard = PlayerData.CurrentBingoCard;
-            FullHeart();
-            isNew = true;
+            Debug.Log("Загрузка старой карты");
+            HeartLoad();
         }
         else
         {
-            //Download score and hearts from saved bingo card
-            ScoreText.text = $"$ {PlayerData.CurrentBingoCard.Scores}";
-            HeartLoad();
+            ResetCells();
+            bingoCard = PlayerData.CurrentBingoCard;
+            FullHeart();
+            Debug.Log("новая карта");
+            isNew = true;
         }
+        LoadScores(); // If this is new card, it's gonna load 0 scores, in other way, it's takes scores from PlayerData.CurrentBingoCard
 
         if (TryGetComponent<TranslatorTextElement>(out var translator))
             Destroy(translator);
@@ -69,11 +83,12 @@ public class GameplayWindow : MonoBehaviour
         {
             if(i < CellPool.Count)
             {
+                BingoCell bingoCell = bingoCard.Cells[i];
                 CellBingoCard cell = CellPool[i];
-                cell.Initialize(bingoCard.Cells[i], PlayerPressedCell);
-                if (isNew) cell.NeutralPressed();
-                if (!isNew && bingoCard.Cells[i].IsCorrect) cell.CorrectPressed();
-                if (!isNew && !bingoCard.Cells[i].IsCorrect && !bingoCard.Cells[i].IsNeutral) cell.UncorrectPressed();
+                cell.Initialize(bingoCell, PlayerPressedCell);
+                if (isNew || bingoCell.IsNeutral) cell.NeutralPressed(); // If it's new card or in old card this was neutral
+                if (!isNew && bingoCell.IsCorrect) cell.CorrectPressed(); // If not new and cell correct
+                if (!isNew && !bingoCell.IsCorrect && !bingoCell.IsNeutral) cell.UncorrectPressed(); // If not new and cell not correct and neutral
             }
             else
             {
@@ -127,6 +142,11 @@ public class GameplayWindow : MonoBehaviour
         ScoreText.text = $"$ {PlayerData.CurrentBingoCard.Scores}";
     }
 
+    private void LoadScores()
+    {
+        ScoreText.text = $"$ {PlayerData.CurrentBingoCard.Scores}";
+    }
+
     private void FullHeart()
     {
         foreach (Image heart in HeartsImages)
@@ -138,7 +158,12 @@ public class GameplayWindow : MonoBehaviour
     private void HeartLoad()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
-        FullHeart();
+        Debug.Log(Hearts);
+        // Fill all hearts
+        foreach (Image heart in HeartsImages)
+            heart.sprite = FullHeartSprite;
+
+        // Hearts = 4; So we set LoseHeartSprite in range [4..HeartsImages.Length]
         for (int i = Hearts; i < HeartsImages.Length; i++)
         {
             HeartsImages[i].sprite = LoseHeartSprite;

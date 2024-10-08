@@ -6,6 +6,6 @@ public class LoadBingoCardData
 {
     public string DoramaName;
     public string ScreenPath;
-    public DateTime Date;
+    public long Date;
     public BingoCard BingoCard;
 }
