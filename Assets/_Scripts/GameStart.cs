@@ -7,7 +7,6 @@ public class GameStart : MonoBehaviour
 {
     [SerializeField] private GameObject LanguageButtonPrefab;
     [SerializeField] private RectTransform LanguageButtonParent;
-
     [SerializeField] private CreateNewBingoCard CreateNewBingoCard;
 
     void Awake()
@@ -22,7 +21,7 @@ public class GameStart : MonoBehaviour
         SaveLoadSystem saveManager = new();
         PlayerData.CurrentBingoCard = saveManager.Load<BingoCard>(SaveKey.CurrentCard);
         ApplicationOptions.LanguageCode = saveManager.Load(SaveKey.Language);
-        PlayerData.SavedBingoCards = saveManager.Load<LoadBingoCardData[]>(SaveKey.SavedCards);
+        PlayerData.SavedBingoCards = saveManager.LoadArray<LoadBingoCardData>(SaveKey.SavedCards);
     }
 
     private void InitializeSceneObjects()
@@ -68,4 +67,3 @@ public class GameStart : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 }
-

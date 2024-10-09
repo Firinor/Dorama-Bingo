@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Net;
 using System.Threading.Tasks;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -47,11 +48,11 @@ public static class EthernetManager
                 yield break;
 
             data = webRequest.downloadHandler.text;
-            if (!VersionCompare(DataManager.ReadData(fileName, resources: !DataManager.IsExists(fileName, resources: false)), data))
-            {
-                UpdateLoader._isNeedToUpdate = true;
-                onFinish.Invoke(fileName, data);
-            }
+        }
+        if (!VersionCompare(DataManager.ReadData(fileName, resources: !DataManager.IsExists(fileName, resources: false)), data))
+        {
+            UpdateLoader._isNeedToUpdate = true;
+            onFinish.Invoke(fileName, data);
         }
     }
 
