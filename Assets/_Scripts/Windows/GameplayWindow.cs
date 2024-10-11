@@ -35,7 +35,12 @@ public class GameplayWindow : MonoBehaviour
     [SerializeField]
     private Sprite LoseHeartSprite;
 
+    private bool _loadMode = false;
 
+    private void Awake()
+    {
+        EventBus._loadBingoCardEvent.AddListener(() => _loadMode = true);
+    }
     private void OnEnable()
     {
         CreateBingoCard();
@@ -47,43 +52,53 @@ public class GameplayWindow : MonoBehaviour
         new SaveLoadSystem().Save(bingoCard, SaveKey.CurrentCard);
     }
 
-    public void ResetCells()
+    private void ResetCurrentCard()
     {
-        PlayerData.CurrentBingoCard.Cells = null;
+        foreach (BingoCell cell in PlayerData.CurrentBingoCard.Cells)
+        {
+            cell.IsNeutral = true;
+            cell.IsCorrect = false;
+        }
+        PlayerData.CurrentBingoCard.Hearts = 5;
+        PlayerData.CurrentBingoCard.Scores = 0;
     }
+
 
     public void CreateBingoCard()
     {
         bool isNew = false;
-        Debug.Log(bingoCard.GetHashCode() + "; " + PlayerData.CurrentBingoCard.GetHashCode());
-        if ((bingoCard.Equals(PlayerData.CurrentBingoCard)))
+
+        if ((bingoCard.Equals(PlayerData.CurrentBingoCard)) || _loadMode)
         {
-            Debug.Log("Загрузка старой карты");
+            if (_loadMode)
+                _loadMode = false;
+            
             HeartLoad();
         }
         else
         {
-            ResetCells();
+            ResetCurrentCard();
             bingoCard = PlayerData.CurrentBingoCard;
             FullHeart();
-            Debug.Log("новая карта");
             isNew = true;
         }
-        LoadScores(); // If this is new card, it's gonna load 0 scores, in other way, it's takes scores from PlayerData.CurrentBingoCard
+
+        LoadScores();
 
         if (TryGetComponent<TranslatorTextElement>(out var translator))
             Destroy(translator);
-        DoramaName.text = bingoCard.Dorama;
+
+        DoramaName.text = PlayerData.CurrentBingoCard.Dorama;
         DoramaName.gameObject.AddComponent<TranslatorTextElement>();
         
-        CellParent.constraintCount = bingoCard.Size.x;
+        CellParent.constraintCount = PlayerData.CurrentBingoCard.Size.x;
 
         //enable bingo card cells
-        for (int i = 0; i < bingoCard.Cells.Length; i++)
+        for (int i = 0; i < PlayerData.CurrentBingoCard.Cells.Length; i++)
         {
             if(i < CellPool.Count)
             {
-                BingoCell bingoCell = bingoCard.Cells[i];
+                BingoCell bingoCell = PlayerData.CurrentBingoCard.Cells[i];
                 CellBingoCard cell = CellPool[i];
                 cell.Initialize(bingoCell, PlayerPressedCell);
                 if (isNew || bingoCell.IsNeutral) cell.NeutralPressed(); // If it's new card or in old card this was neutral
@@ -94,13 +109,13 @@ public class GameplayWindow : MonoBehaviour
             {
                 CellBingoCard cell = Instantiate(CellPrefab, CellParent.transform);
                 CellPool.Add(cell);
-                cell.Initialize(bingoCard.Cells[i], PlayerPressedCell);
+                cell.Initialize(PlayerData.CurrentBingoCard.Cells[i], PlayerPressedCell);
             }
         }
         //disable extra cells
-        if (bingoCard.Cells.Length < CellPool.Count)
+        if (PlayerData.CurrentBingoCard.Cells.Length < CellPool.Count)
         {
-            for (int i = bingoCard.Cells.Length; i < CellPool.Count; i++)
+            for (int i = PlayerData.CurrentBingoCard.Cells.Length; i < CellPool.Count; i++)
             {
                 CellPool[i].gameObject.SetActive(false);
             }
@@ -158,7 +173,7 @@ public class GameplayWindow : MonoBehaviour
     private void HeartLoad()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
-        Debug.Log(Hearts);
+
         // Fill all hearts
         foreach (Image heart in HeartsImages)
             heart.sprite = FullHeartSprite;

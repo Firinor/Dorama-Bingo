@@ -74,30 +74,34 @@ public class SaveLoadWindow : MonoBehaviour
     {
         if (!String.IsNullOrEmpty(playerSaves[index]?.DoramaName))
         {
-            //PlayerData.CurrentBingoCard = playerSaves[index].BingoCard;
-            PlayerData.CurrentBingoCard = new BingoCard(playerSaves[index].BingoCard);
-            foreach(var bingoCell in playerSaves[index].BingoCard.Cells)
-            {
-                Debug.Log(bingoCell.IsNeutral);
-            }
+            /*
+                We need it, because in Initializion method, our PlayerData.SavedBingoCards ref to playerSaves, but playerSaves stored in heap,
+                so we need to reload PlayerData.SavedBingoCard from our PC, otherwise here's gonna be bug
+             */
+            var savedCards = new SaveLoadSystem().LoadArray<LoadBingoCardData>(SaveKey.SavedCards); 
+
+            if (savedCards != null)
+                PlayerData.SavedBingoCards = savedCards;
+
+            PlayerData.CurrentBingoCard = PlayerData.SavedBingoCards[index].BingoCard;
+
+            EventBus._loadBingoCardEvent?.Invoke();
             windowManager.OpenGameplayWindow();
         }
     }
 
     private void SaveBingoCard(int index)
     {
-        BingoCard currentCard = new BingoCard(PlayerData.CurrentBingoCard);
+        BingoCard currentCard = PlayerData.CurrentBingoCard;
         LoadBingoCardData newSavedCard = new();
         newSavedCard.BingoCard = currentCard;
         newSavedCard.DoramaName = currentCard.Dorama;
         newSavedCard.Date = DateTime.Now.Ticks;
         newSavedCard.ScreenPath = TexturePath + $"/savescrn{index}.jpg";
-        playerSaves.SetValue(newSavedCard, index);
+        playerSaves[index] = newSavedCard;
         new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
         saveLoadManager.SaveCurrentCardScreen(newSavedCard.ScreenPath, objectToScreen, () => { UpdateBingoCard(index);});
 
-        PlayerData.CurrentBingoCard = new BingoCard(currentCard);
-        new SaveLoadSystem().Save(PlayerData.CurrentBingoCard, SaveKey.CurrentCard);
         windowManager.OpenGameplayWindow();
     }
 

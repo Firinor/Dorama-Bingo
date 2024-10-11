@@ -7,7 +7,7 @@ public enum SaveKey
 {
     CurrentCard,
     Language,
-    SavedCards
+    SavedCards,
 }
 
 public class SaveLoadSystem
