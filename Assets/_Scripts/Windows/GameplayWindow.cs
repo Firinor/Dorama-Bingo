@@ -103,8 +103,8 @@ public class GameplayWindow : MonoBehaviour
                 CellBingoCard cell = CellPool[i];
                 cell.Initialize(bingoCell, PlayerPressedCell);
                 if (isNew || bingoCell.IsNeutral) cell.NeutralPressed(); // If it's new card or in old card this was neutral
-                if (!isNew && bingoCell.IsCorrect) cell.CorrectPressed(); // If not new and cell correct
-                if (!isNew && !bingoCell.IsCorrect && !bingoCell.IsNeutral) cell.UncorrectPressed(); // If not new and cell not correct and neutral
+                else if (!isNew && bingoCell.IsCorrect) cell.CorrectPressed(); // If not new and cell correct
+                else if (!isNew && !bingoCell.IsCorrect && !bingoCell.IsNeutral) cell.UncorrectPressed(); // If not new and cell not correct and neutral
             }
             else
             {
