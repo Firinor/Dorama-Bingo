@@ -7,7 +7,7 @@ public enum SaveKey
 {
     CurrentCard,
     Language,
-    SavedCards,
+    SavedCards
 }
 
 public class SaveLoadSystem
@@ -15,14 +15,12 @@ public class SaveLoadSystem
     public void Save(string data, SaveKey key)
     {
         PlayerPrefs.SetString(key.ToString(), data);
-        PlayerPrefs.Save();
     }
 
     public void Save<T>(T data, SaveKey key)
     {
         string jsonData = JsonUtility.ToJson(data, true);
         PlayerPrefs.SetString(key.ToString(), jsonData);
-        PlayerPrefs.Save();
     }
 
     public void Save<T>(T[] data, SaveKey key)
@@ -32,7 +30,6 @@ public class SaveLoadSystem
         string jsonData = JsonUtility.ToJson(wrapper, true);
         PlayerPrefs.DeleteKey(key.ToString());
         PlayerPrefs.SetString(key.ToString(), jsonData);
-        PlayerPrefs.Save();
     }
 
     public void SaveTexture(Texture2D texture, string path)

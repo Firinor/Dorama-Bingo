@@ -110,7 +110,6 @@ public class CreateNewBingoCard : MonoBehaviour
     }
     private BingoCell[] GenetareNewCells(string dorama, int size)
     {
-        Debug.Log("Генерим");
         int count = size * size;
 
         BingoCell[] result = new BingoCell[count];

@@ -49,7 +49,7 @@ public class GameplayWindow : MonoBehaviour
     public void SaveBingoCard() // When user press "ReturnButton", we saves the current card into PlayerData.CurrentBingoCard
     {
         PlayerData.CurrentBingoCard = bingoCard;
-        new SaveLoadSystem().Save(bingoCard, SaveKey.CurrentCard);
+        new SaveLoadSystem().Save(PlayerData.CurrentBingoCard, SaveKey.CurrentCard);
     }
 
     private void ResetCurrentCard()
@@ -67,12 +67,13 @@ public class GameplayWindow : MonoBehaviour
     public void CreateBingoCard()
     {
         bool isNew = false;
-
         if ((bingoCard.Equals(PlayerData.CurrentBingoCard)) || _loadMode)
         {
             if (_loadMode)
+            {
+                bingoCard = PlayerData.CurrentBingoCard;
                 _loadMode = false;
-            
+            }
             HeartLoad();
         }
         else
@@ -88,13 +89,13 @@ public class GameplayWindow : MonoBehaviour
         if (TryGetComponent<TranslatorTextElement>(out var translator))
             Destroy(translator);
 
-        DoramaName.text = PlayerData.CurrentBingoCard.Dorama;
+        DoramaName.text = bingoCard.Dorama;
         DoramaName.gameObject.AddComponent<TranslatorTextElement>();
         
-        CellParent.constraintCount = PlayerData.CurrentBingoCard.Size.x;
+        CellParent.constraintCount = bingoCard.Size.x;
 
         //enable bingo card cells
-        for (int i = 0; i < PlayerData.CurrentBingoCard.Cells.Length; i++)
+        for (int i = 0; i < bingoCard.Cells.Length; i++)
         {
             if(i < CellPool.Count)
             {
@@ -109,11 +110,11 @@ public class GameplayWindow : MonoBehaviour
             {
                 CellBingoCard cell = Instantiate(CellPrefab, CellParent.transform);
                 CellPool.Add(cell);
-                cell.Initialize(PlayerData.CurrentBingoCard.Cells[i], PlayerPressedCell);
+                cell.Initialize(bingoCard.Cells[i], PlayerPressedCell);
             }
         }
         //disable extra cells
-        if (PlayerData.CurrentBingoCard.Cells.Length < CellPool.Count)
+        if (bingoCard.Cells.Length < CellPool.Count)
         {
             for (int i = PlayerData.CurrentBingoCard.Cells.Length; i < CellPool.Count; i++)
             {
@@ -129,7 +130,7 @@ public class GameplayWindow : MonoBehaviour
 
         cell.bingoCell.IsNeutral = false;
 
-        if (DataBase.Doramas[PlayerData.CurrentBingoCard.Dorama][cell.bingoCell.Tag])
+        if (DataBase.Doramas[bingoCard.Dorama][cell.bingoCell.Tag])
         {
             cell.CorrectPressed();
             cell.bingoCell.IsCorrect = true;

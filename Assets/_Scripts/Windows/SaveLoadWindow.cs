@@ -83,7 +83,7 @@ public class SaveLoadWindow : MonoBehaviour
             if (savedCards != null)
                 PlayerData.SavedBingoCards = savedCards;
 
-            PlayerData.CurrentBingoCard = PlayerData.SavedBingoCards[index].BingoCard;
+            PlayerData.CurrentBingoCard = new BingoCard(PlayerData.SavedBingoCards[index].BingoCard);
 
             EventBus._loadBingoCardEvent?.Invoke();
             windowManager.OpenGameplayWindow();
@@ -92,12 +92,15 @@ public class SaveLoadWindow : MonoBehaviour
 
     private void SaveBingoCard(int index)
     {
-        BingoCard currentCard = PlayerData.CurrentBingoCard;
-        LoadBingoCardData newSavedCard = new();
-        newSavedCard.BingoCard = currentCard;
-        newSavedCard.DoramaName = currentCard.Dorama;
-        newSavedCard.Date = DateTime.Now.Ticks;
-        newSavedCard.ScreenPath = TexturePath + $"/savescrn{index}.jpg";
+        BingoCard currentCard = new BingoCard(PlayerData.CurrentBingoCard);
+        Debug.Log(currentCard.GetHashCode());
+        LoadBingoCardData newSavedCard = new()
+        {
+            BingoCard = currentCard,
+            DoramaName = currentCard.Dorama,
+            Date = DateTime.Now.Ticks,
+            ScreenPath = TexturePath + $"/savescrn{index}.jpg"
+        };
         playerSaves[index] = newSavedCard;
         new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
         saveLoadManager.SaveCurrentCardScreen(newSavedCard.ScreenPath, objectToScreen, () => { UpdateBingoCard(index);});
