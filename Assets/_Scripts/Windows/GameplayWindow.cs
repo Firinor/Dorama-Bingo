@@ -74,7 +74,7 @@ public class GameplayWindow : MonoBehaviour
                 bingoCard = PlayerData.CurrentBingoCard;
                 _loadMode = false;
             }
-            LoadHeart();
+            HeartLoad();
         }
         else
         {
@@ -134,18 +134,18 @@ public class GameplayWindow : MonoBehaviour
         {
             cell.CorrectPressed();
             cell.bingoCell.IsCorrect = true;
-            HeartAdd();
+            AddHeart();
             AddScores();
         }
         else
         {
             cell.UncorrectPressed();
             cell.bingoCell.IsCorrect = false;
-            HeartHit();
+            HitHeart();
         }
     }
 
-    private void HeartAdd()
+    private void AddHeart()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
         Hearts = Mathf.Min(5, Hearts + 1);
@@ -171,7 +171,7 @@ public class GameplayWindow : MonoBehaviour
         PlayerData.CurrentBingoCard.Hearts = 5;
     }
 
-    private void LoadHeart()
+    private void HeartLoad()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
 
@@ -186,14 +186,14 @@ public class GameplayWindow : MonoBehaviour
         }
     }
 
-    private void HeartHit()
+    private void HitHeart()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
         Hearts = Mathf.Max(0, Hearts - 1);
         HeartsImages[Hearts].sprite = LoseHeartSprite;
     }
 
-    public void PlayerDone()
+    public void DonePlayer()
     {
         WinConditions conditions = new();
 
