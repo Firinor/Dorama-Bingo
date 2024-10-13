@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +8,8 @@ using UnityEngine.UI;
 public class GameplayWindow : MonoBehaviour
 {
     public TextMeshProUGUI DoramaName;
-    private BingoCard bingoCard;
+    [SerializeField]
+    public BingoCard bingoCard;
 
     public GridLayoutGroup CellParent;
     public CellBingoCard CellPrefab;
@@ -32,28 +35,63 @@ public class GameplayWindow : MonoBehaviour
     [SerializeField]
     private Sprite LoseHeartSprite;
 
+    private bool _loadMode = false;
 
+    private void Awake()
+    {
+        EventBus._loadBingoCardEvent.AddListener(() => _loadMode = true);
+    }
     private void OnEnable()
     {
         CreateBingoCard();
     }
 
+    public void SaveBingoCard() // When user press "ReturnButton", we saves the current card into PlayerData.CurrentBingoCard
+    {
+        PlayerData.CurrentBingoCard = bingoCard;
+        new SaveLoadSystem().Save(PlayerData.CurrentBingoCard, SaveKey.CurrentCard);
+    }
+
+    private void ResetCurrentCard()
+    {
+        foreach (BingoCell cell in PlayerData.CurrentBingoCard.Cells)
+        {
+            cell.IsNeutral = true;
+            cell.IsCorrect = false;
+        }
+        PlayerData.CurrentBingoCard.Hearts = 5;
+        PlayerData.CurrentBingoCard.Scores = 0;
+    }
+
+
     public void CreateBingoCard()
     {
         bool isNew = false;
-
-        if (bingoCard != PlayerData.CurrentBingoCard)
+        if ((bingoCard.Equals(PlayerData.CurrentBingoCard)) || _loadMode)
         {
+            if (_loadMode)
+            {
+                bingoCard = PlayerData.CurrentBingoCard;
+                _loadMode = false;
+            }
+            LoadHeart();
+        }
+        else
+        {
+            ResetCurrentCard();
             bingoCard = PlayerData.CurrentBingoCard;
             FullHeart();
             isNew = true;
         }
 
+        LoadScores();
+
         if (TryGetComponent<TranslatorTextElement>(out var translator))
             Destroy(translator);
+
         DoramaName.text = bingoCard.Dorama;
         DoramaName.gameObject.AddComponent<TranslatorTextElement>();
-
+        
         CellParent.constraintCount = bingoCard.Size.x;
 
         //enable bingo card cells
@@ -61,9 +99,12 @@ public class GameplayWindow : MonoBehaviour
         {
             if(i < CellPool.Count)
             {
+                BingoCell bingoCell = bingoCard.Cells[i];
                 CellBingoCard cell = CellPool[i];
-                cell.Initialize(bingoCard.Cells[i], PlayerPressedCell);
-                if (isNew) cell.NeutralPressed();
+                cell.Initialize(bingoCell, PlayerPressedCell);
+                if (isNew || bingoCell.IsNeutral) cell.NeutralPressed(); // If it's new card or in old card this was neutral
+                else if (!isNew && bingoCell.IsCorrect) cell.CorrectPressed(); // If not new and cell correct
+                else if (!isNew && !bingoCell.IsCorrect && !bingoCell.IsNeutral) cell.UncorrectPressed(); // If not new and cell not correct and neutral
             }
             else
             {
@@ -89,22 +130,22 @@ public class GameplayWindow : MonoBehaviour
 
         cell.bingoCell.IsNeutral = false;
 
-        if (DataBase.Doramas[PlayerData.CurrentBingoCard.Dorama][cell.bingoCell.Tag])
+        if (DataBase.Doramas[bingoCard.Dorama][cell.bingoCell.Tag])
         {
             cell.CorrectPressed();
             cell.bingoCell.IsCorrect = true;
-            HeartAdd();
+            AddHeart();
             AddScores();
         }
         else
         {
             cell.UncorrectPressed();
             cell.bingoCell.IsCorrect = false;
-            HeartHit();
+            HitHeart();
         }
     }
 
-    private void HeartAdd()
+    private void AddHeart()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
         Hearts = Mathf.Min(5, Hearts + 1);
@@ -117,6 +158,11 @@ public class GameplayWindow : MonoBehaviour
         ScoreText.text = $"$ {PlayerData.CurrentBingoCard.Scores}";
     }
 
+    private void LoadScores()
+    {
+        ScoreText.text = $"$ {PlayerData.CurrentBingoCard.Scores}";
+    }
+
     private void FullHeart()
     {
         foreach (Image heart in HeartsImages)
@@ -125,14 +171,29 @@ public class GameplayWindow : MonoBehaviour
         PlayerData.CurrentBingoCard.Hearts = 5;
     }
 
-    private void HeartHit()
+    private void LoadHeart()
+    {
+        ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
+
+        // Fill all hearts
+        foreach (Image heart in HeartsImages)
+            heart.sprite = FullHeartSprite;
+
+        // Hearts = 4; So we set LoseHeartSprite in range [4..HeartsImages.Length]
+        for (int i = Hearts; i < HeartsImages.Length; i++)
+        {
+            HeartsImages[i].sprite = LoseHeartSprite;
+        }
+    }
+
+    private void HitHeart()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
         Hearts = Mathf.Max(0, Hearts - 1);
         HeartsImages[Hearts].sprite = LoseHeartSprite;
     }
 
-    public void PlayerDone()
+    public void DonePlayer()
     {
         WinConditions conditions = new();
 

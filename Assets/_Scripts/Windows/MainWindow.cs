@@ -16,5 +16,6 @@ public class MainWindow : MonoBehaviour
         yield return null;
 
         continueButton.SetActive(PlayerData.CurrentBingoCard != null);
+        loadButton.SetActive(PlayerData.SavedBingoCards != null);
     }
 }

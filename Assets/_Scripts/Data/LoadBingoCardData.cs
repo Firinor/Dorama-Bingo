@@ -1,13 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-[SerializeField]
+[Serializable]
 public class LoadBingoCardData
 {
     public string DoramaName;
-    //Application.persistentDataPath = "C:\Users\<userprofile>\AppData\LocalLow\<companyname>\<productname>"
-    //path + "/scrn-1.jpg";
     public string ScreenPath;
-    public DateTime Date;
+    public long Date;
     public BingoCard BingoCard;
 }
