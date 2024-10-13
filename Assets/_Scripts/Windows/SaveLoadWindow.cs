@@ -16,7 +16,6 @@ public class SaveLoadWindow : MonoBehaviour
 
     private void Awake()
     {
-        //TexturePath = Application.persistentDataPath;
         Initialize();
     }
 
@@ -78,10 +77,10 @@ public class SaveLoadWindow : MonoBehaviour
                 We need it, because in Initializion method, our PlayerData.SavedBingoCards ref to playerSaves, but playerSaves stored in heap,
                 so we need to reload PlayerData.SavedBingoCard from our PC, otherwise here's gonna be bug
              */
-            var savedCards = new SaveLoadSystem().LoadArray<LoadBingoCardData>(SaveKey.SavedCards); 
+            var loadedCards = new SaveLoadSystem().LoadArray<LoadBingoCardData>(SaveKey.SavedCards); 
 
-            if (savedCards != null)
-                PlayerData.SavedBingoCards = savedCards;
+            if (loadedCards != null)
+                PlayerData.SavedBingoCards = loadedCards;
 
             PlayerData.CurrentBingoCard = new BingoCard(PlayerData.SavedBingoCards[index].BingoCard);
 
@@ -93,7 +92,6 @@ public class SaveLoadWindow : MonoBehaviour
     private void SaveBingoCard(int index)
     {
         BingoCard currentCard = new BingoCard(PlayerData.CurrentBingoCard);
-        Debug.Log(currentCard.GetHashCode());
         LoadBingoCardData newSavedCard = new()
         {
             BingoCard = currentCard,
@@ -108,8 +106,11 @@ public class SaveLoadWindow : MonoBehaviour
         windowManager.OpenGameplayWindow();
     }
 
-    public void OnDeletePressed(int index)
+    private void OnDeletePressed(int index)
     {
+        if (playerSaves[index] == null && index < playerSaves.Length)
+            return;
+
         playerSaves[index] = null;
         new SaveLoadSystem().DeleteTexture(TexturePath + $"/savescrn{index}.jpg");
         new SaveLoadSystem().Save(playerSaves, SaveKey.SavedCards);
