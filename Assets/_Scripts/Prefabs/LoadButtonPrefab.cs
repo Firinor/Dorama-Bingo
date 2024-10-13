@@ -25,7 +25,7 @@ public class LoadButtonPrefab : MonoBehaviour
             doramaName.text = data.DoramaName;
             bingoCardScreen.sprite = GetSprite(data.ScreenPath);
             DateTime dateTime = new(data.Date);
-            dateText.text = dateTime.ToString(format: "yyyy-MM-dd HH:mm");
+            dateText.text = dateTime.ToString(format: "G");
         }
     }
 
