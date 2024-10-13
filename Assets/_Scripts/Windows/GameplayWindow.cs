@@ -74,7 +74,7 @@ public class GameplayWindow : MonoBehaviour
                 bingoCard = PlayerData.CurrentBingoCard;
                 _loadMode = false;
             }
-            HeartLoad();
+            LoadHeart();
         }
         else
         {
@@ -171,7 +171,7 @@ public class GameplayWindow : MonoBehaviour
         PlayerData.CurrentBingoCard.Hearts = 5;
     }
 
-    private void HeartLoad()
+    private void LoadHeart()
     {
         ref int Hearts = ref PlayerData.CurrentBingoCard.Hearts;
 

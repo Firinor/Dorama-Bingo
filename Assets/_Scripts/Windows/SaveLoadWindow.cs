@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SaveLoadWindow : MonoBehaviour
 {
-    private static string TexturePath;
+    private static string TexturePath => Application.persistentDataPath; 
 
     public bool IsSavingMode;
 
@@ -16,7 +16,7 @@ public class SaveLoadWindow : MonoBehaviour
 
     private void Awake()
     {
-        TexturePath = Application.persistentDataPath;
+        //TexturePath = Application.persistentDataPath;
         Initialize();
     }
 
