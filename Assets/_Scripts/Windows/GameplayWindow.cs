@@ -99,7 +99,7 @@ public class GameplayWindow : MonoBehaviour
         {
             if(i < CellPool.Count)
             {
-                BingoCell bingoCell = PlayerData.CurrentBingoCard.Cells[i];
+                BingoCell bingoCell = bingoCard.Cells[i];
                 CellBingoCard cell = CellPool[i];
                 cell.Initialize(bingoCell, PlayerPressedCell);
                 if (isNew || bingoCell.IsNeutral) cell.NeutralPressed(); // If it's new card or in old card this was neutral
@@ -116,7 +116,7 @@ public class GameplayWindow : MonoBehaviour
         //disable extra cells
         if (bingoCard.Cells.Length < CellPool.Count)
         {
-            for (int i = PlayerData.CurrentBingoCard.Cells.Length; i < CellPool.Count; i++)
+            for (int i = bingoCard.Cells.Length; i < CellPool.Count; i++)
             {
                 CellPool[i].gameObject.SetActive(false);
             }
